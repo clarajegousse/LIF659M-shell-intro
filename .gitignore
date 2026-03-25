@@ -7,7 +7,6 @@
 /.quarto/
 **/*.quarto_ipynb
 
-docs/
 .quarto/
 
 __pycache__/

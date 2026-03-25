@@ -1,0 +1,522 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Introduction to the Shell for Bioinformatics",
+    "section": "",
+    "text": "Preface\nThis workshop is part of LÍF659M at the University of Iceland. It introduces the Unix shell, the command-line interface that underpins most bioinformatics work.\nThe material is adapted from the Data Carpentry: Shell Genomics lesson and Clara Jégousse’s previous shell workshops.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#learning-objectives",
+    "href": "index.html#learning-objectives",
+    "title": "Introduction to the Shell for Bioinformatics",
+    "section": "Learning objectives",
+    "text": "Learning objectives\nBy the end of the guided session (Chapters 1-4) you will be able to:\n\nOpen a terminal and navigate your file system using the command line\nCreate, copy, move and inspect files and directories\nCheck whether a programme is installed and install one from the command line\n\nIf you work through Chapters 5 and 6, you will additionally be able to:\n\nQuery NCBI databases and download a genome sequence from the command line\nPerform basic exploration of a FASTA file using grep, wc and pipes",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#schedule",
+    "href": "index.html#schedule",
+    "title": "Introduction to the Shell for Bioinformatics",
+    "section": "Schedule",
+    "text": "Schedule\nThe guided session runs for 1 hour 30 minutes and covers Chapters 1-4. Chapters 5 and 6 are available for those who move ahead during class or wish to continue independently afterwards.\n\n\n\n\n\n\n\n\nTime\nChapter\nTopic\n\n\n\n\n00:00\nSetup\nOpening a terminal on your OS\n\n\n00:10\n1. Introducing the shell\nWhat is the shell and why use it?\n\n\n00:25\n2. Navigating the file system\nMoving around directories\n\n\n00:50\n3. Working with files\nCreating, copying and inspecting files\n\n\n01:10\n4. Installing programmes\nwhich, package managers, Entrez Direct\n\n\n01:30\nWrap-up\nKey points and next steps\n\n\nself-directed\n5. Fetching sequence data\nNCBI databases, taxonomy, downloading a genome\n\n\nself-directed\n6. Exploring sequence data\ngrep, wc, pipes",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#setup",
+    "href": "index.html#setup",
+    "title": "Introduction to the Shell for Bioinformatics",
+    "section": "Setup",
+    "text": "Setup\nPlease complete the setup steps before the session — this means only opening your terminal. Everything else will be installed during class.\n\nMacOS\nThe Terminal application is already on your Mac. Open Finder → Applications → Utilities → Terminal, or search for Terminal in Spotlight (⌘ Space).\n\n\nLinux (Ubuntu)\nOpen the Terminal from your applications menu, or press Ctrl + Alt + T.\n\n\nWindows\nDownload and install MobaXterm Home Edition (free). Once installed:\n\nOpen MobaXterm\nClick Start local terminal\n\nMobaXterm provides a bash shell on Windows and will be used throughout this workshop.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "01-intro.html",
+    "href": "01-intro.html",
+    "title": "1  Introducing the shell",
+    "section": "",
+    "text": "1.1 What is the shell?\nA shell is a program that lets you interact with your computer by typing commands. Instead of clicking on icons and menus, a graphical user interface (GUI),you type instructions and the computer responds with text output.\nThe shell we will use is called bash (Bourne Again SHell). It is the default on most Linux systems and on older Macs. On newer Macs the default is zsh, which is nearly identical for our purposes.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introducing the shell</span>"
+    ]
+  },
+  {
+    "objectID": "01-intro.html#what-is-the-shell",
+    "href": "01-intro.html#what-is-the-shell",
+    "title": "1  Introducing the shell",
+    "section": "",
+    "text": "Why bother?\nYou might wonder why anyone would use a text interface when GUIs exist. Here are three reasons that matter in bioinformatics:\n\nMost bioinformatics tools have no GUI. Programs like BLAST, HMMER, Bowtie, and Samtools are run exclusively from the command line.\nAutomation. When you need to process hundreds of files, a few lines of shell code replaces hours of pointing and clicking.\nRemote computing. High-performance computing clusters, where large genomic analyses actually run,are only accessible via the shell.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introducing the shell</span>"
+    ]
+  },
+  {
+    "objectID": "01-intro.html#opening-the-terminal",
+    "href": "01-intro.html#opening-the-terminal",
+    "title": "1  Introducing the shell",
+    "section": "1.2 Opening the terminal",
+    "text": "1.2 Opening the terminal\nDepending on your operating system, you opened the terminal following the setup instructions in the Preface. You should see a window with some text and a blinking cursor. That text is the prompt.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introducing the shell</span>"
+    ]
+  },
+  {
+    "objectID": "01-intro.html#the-prompt-am-i-ready",
+    "href": "01-intro.html#the-prompt-am-i-ready",
+    "title": "1  Introducing the shell",
+    "section": "1.3 The prompt (Am I ready?)",
+    "text": "1.3 The prompt (Am I ready?)\nThe prompt tells you the shell is waiting for input. It typically looks something like this:\nusername@computer:~$\nThe exact appearance varies, but what matters is the $ (or % on zsh) at the end this signals that the shell is ready. Do not type the $ when following examples in this workshop. It is shown only to indicate a command you should type.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introducing the shell</span>"
+    ]
+  },
+  {
+    "objectID": "01-intro.html#your-first-commands",
+    "href": "01-intro.html#your-first-commands",
+    "title": "1  Introducing the shell",
+    "section": "1.4 Your first commands",
+    "text": "1.4 Your first commands\nLet’s run a few simple commands to get comfortable.\n\nIdentifying yourself (Who am I?)\nThe command whoami prints your username:\nwhoami\n\n\nChecking the time (What time is it?)\nThe command date prints the current date and time:\ndate\n\n\nClearing the screen (Clean slate)\nThe command clear clears the terminal screen. Your previous output is not lost you can still scroll up to see it.\nclear\n\n\n\n\n\n\nTip\n\n\n\nThe keyboard shortcut Ctrl + L does the same thing as clear.\n\n\n\n\nPrinting text (Talking to yourself)\nThe command echo prints whatever you give it back to the screen:\necho \"Hello, world\"\nYou will see echo again when we write scripts.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introducing the shell</span>"
+    ]
+  },
+  {
+    "objectID": "01-intro.html#the-anatomy-of-a-command",
+    "href": "01-intro.html#the-anatomy-of-a-command",
+    "title": "1  Introducing the shell",
+    "section": "1.5 The anatomy of a command",
+    "text": "1.5 The anatomy of a command\nMost shell commands follow this pattern:\ncommand [options] [arguments]\n\ncommand: the programme to run (e.g. ls)\noptions (or flags): modify the behaviour, usually starting with - (e.g. -l)\narguments: the target the command acts on (e.g. a filename or directory)\n\nWe will see this pattern in action throughout the workshop.\n\n\n\n\n\n\n\nCaution✏️ Exercise 1.1\n\n\n\nRun echo with your own name:\necho \"Hello, my name is Clara\"\nNow try running echo without any argument just type echo and press Enter. What happens?\n\n\n\n\n\n\nNoteSolution\n\n\n\n\n\necho with no argument prints a blank line. It still runs it just has nothing to print. This illustrates that commands can often be run without arguments, though the result may not be very useful.\n\n\n\n\n\n\n\n\n\n\n\nImportant🚀 Bonus: for those who want more\n\n\n\nFind out what version of bash (or zsh) you are running:\necho $BASH_VERSION\n# or on newer Macs:\necho $ZSH_VERSION\nThe $ before a word tells the shell to treat it as a variable a named value stored in memory. $BASH_VERSION is a variable the shell sets automatically when it starts.\n\n\n\n\n\n\n\n\n\nTip🔑 Key points\n\n\n\n\nThe shell is a text-based interface for interacting with your computer\nThe prompt ($) signals the shell is ready for input\nCommands follow the pattern: command [options] [arguments]\nwhoami, date, clear, and echo are simple starter commands",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introducing the shell</span>"
+    ]
+  },
+  {
+    "objectID": "02-navigation.html",
+    "href": "02-navigation.html",
+    "title": "2  Navigating the file system",
+    "section": "",
+    "text": "2.1 The file system\nFiles and directories on a Unix system are arranged in a hierarchy, like an upside-down tree. The base of the tree is called the root directory and is written as /. Every file and directory on the system lives somewhere beneath it.\nWhen you open a terminal, you start in your home directory typically /home/username on Linux or /Users/username on a Mac. This is your personal space on the system.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Navigating the file system</span>"
+    ]
+  },
+  {
+    "objectID": "02-navigation.html#the-file-system",
+    "href": "02-navigation.html#the-file-system",
+    "title": "2  Navigating the file system",
+    "section": "",
+    "text": "/\n├── home/\n│   └── username/\n│       ├── Documents/\n│       └── Downloads/\n├── usr/\n└── tmp/",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Navigating the file system</span>"
+    ]
+  },
+  {
+    "objectID": "02-navigation.html#print-working-directory-where-am-i",
+    "href": "02-navigation.html#print-working-directory-where-am-i",
+    "title": "2  Navigating the file system",
+    "section": "2.2 Print working directory (Where am I?)",
+    "text": "2.2 Print working directory (Where am I?)\nAt any moment, you are working inside one directory your current working directory. The command pwd (print working directory) tells you exactly where that is:\npwd\nYour output will look something like:\n/home/username\nor on a Mac:\n/Users/username",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Navigating the file system</span>"
+    ]
+  },
+  {
+    "objectID": "02-navigation.html#listing-what-is-there",
+    "href": "02-navigation.html#listing-what-is-there",
+    "title": "2  Navigating the file system",
+    "section": "2.3 Listing (What is there?)",
+    "text": "2.3 Listing (What is there?)\nThe command ls (list) shows the contents of your current directory:\nls\nOn its own, ls gives you a simple list of names. Flags make it more informative:\n\n\n\nCommand\nWhat it shows\n\n\n\n\nls -F\nAdds / after directories, * after executables\n\n\nls -l\nLong format: permissions, size, date\n\n\nls -a\nAll files, including hidden ones (starting with .)\n\n\nls -lh\nLong format with human-readable file sizes\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nFlags can be combined: ls -lF and ls -lah are both valid. The order of flags generally does not matter.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Navigating the file system</span>"
+    ]
+  },
+  {
+    "objectID": "02-navigation.html#making-a-directory-creating-a-place-to-work",
+    "href": "02-navigation.html#making-a-directory-creating-a-place-to-work",
+    "title": "2  Navigating the file system",
+    "section": "2.4 Making a directory (Creating a place to work)",
+    "text": "2.4 Making a directory (Creating a place to work)\nThe command mkdir (make directory) creates a new directory:\nmkdir training\nCheck it was created:\nls\n\n\n\n\n\n\nNote\n\n\n\nDirectory names should not contain spaces. Use underscores (_) or hyphens (-) instead for example, my_data or shell-intro. Spaces in filenames cause all sorts of problems on the command line.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Navigating the file system</span>"
+    ]
+  },
+  {
+    "objectID": "02-navigation.html#changing-directory-going-somewhere",
+    "href": "02-navigation.html#changing-directory-going-somewhere",
+    "title": "2  Navigating the file system",
+    "section": "2.5 Changing directory (Going somewhere)",
+    "text": "2.5 Changing directory (Going somewhere)\nThe command cd (change directory) moves you into a different directory. Let’s go into the one we just created:\ncd training\nConfirm you have moved:\npwd\n\nGoing up (Back to the parent)\nTwo dots (..) always refer to the directory above your current location (the parent directory):\ncd ..\n\n\nGoing home\nA tilde (~) always refers to your home directory. From anywhere on the system:\ncd ~\nor simply:\ncd\nBoth take you straight home.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Navigating the file system</span>"
+    ]
+  },
+  {
+    "objectID": "02-navigation.html#absolute-vs.-relative-paths",
+    "href": "02-navigation.html#absolute-vs.-relative-paths",
+    "title": "2  Navigating the file system",
+    "section": "2.6 Absolute vs. relative paths",
+    "text": "2.6 Absolute vs. relative paths\nA path is the address of a file or directory in the file system.\n\nAn absolute path starts from the root (/) and works from anywhere on the system:\ncd /home/username/training\nA relative path is given relative to where you currently are:\ncd training\n\n\n\n\n\n\n\nTip\n\n\n\nUse absolute paths in scripts they always work regardless of where the script is called from. Use relative paths for quick interactive navigation.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Navigating the file system</span>"
+    ]
+  },
+  {
+    "objectID": "02-navigation.html#tab-completion-let-the-shell-do-the-typing",
+    "href": "02-navigation.html#tab-completion-let-the-shell-do-the-typing",
+    "title": "2  Navigating the file system",
+    "section": "2.7 Tab completion (Let the shell do the typing)",
+    "text": "2.7 Tab completion (Let the shell do the typing)\nTyping long directory or file names is error-prone. Type the first few characters and press Tab the shell will autocomplete:\ncd trai&lt;Tab&gt;\nbecomes:\ncd training\nIf there are multiple matches, press Tab twice to see all options.\n\n\n\n\n\n\nTip\n\n\n\nTab completion is one of the most valuable habits you can build at the command line. Use it constantly it saves time and prevents typos.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Navigating the file system</span>"
+    ]
+  },
+  {
+    "objectID": "02-navigation.html#reading-the-manual-how-does-this-work",
+    "href": "02-navigation.html#reading-the-manual-how-does-this-work",
+    "title": "2  Navigating the file system",
+    "section": "2.8 Reading the manual (How does this work?)",
+    "text": "2.8 Reading the manual (How does this work?)\nEvery command comes with a built-in manual. The command man (manual) opens it:\nman ls\nUse the arrow keys or Space to scroll. Press q to quit.\n\n\n\n\n\n\nTip\n\n\n\nNo one memorises all the options for every command. The manual is always there. For a quicker summary, many commands also accept --help:\nls --help\n\n\n\n\n\n\n\n\n\nCaution✏️ Exercise 2.1\n\n\n\n\nNavigate into your training directory\nUse print working directory to confirm where you are\nGo back to your home directory using ..\nGo back to training using the ~ notation\n\n\n\n\n\n\n\nNoteSolution\n\n\n\n\n\ncd training\npwd\ncd ..\ncd ~/training\n\n\n\n\n\n\n\n\n\n\n\nCaution✏️ Exercise 2.2\n\n\n\nInside training, create two new directories called data and results in a single command:\nmkdir data results\nList the contents with ls -F. What does the trailing / tell you?\n\n\n\n\n\n\nNoteSolution\n\n\n\n\n\nls -F\nThe trailing / indicates that data and results are directories, not files. Files have no trailing character; executable files get a *.\n\n\n\n\n\n\n\n\n\n\n\nImportant🚀 Bonus: for those who want more\n\n\n\nThe command tree prints a visual representation of a directory structure:\ntree ~/training\nIf tree is not installed: sudo apt install tree (Ubuntu), brew install tree (Mac with Homebrew), or it may already be available in MobaXterm.\nAlso try: what happens when you run cd with no argument at all? Where do you end up?\n\n\n\n\n\n\n\n\n\nTip🔑 Key points\n\n\n\n\nThe Unix file system is a hierarchy rooted at /\npwd tells you where you are; ls shows what is there; cd moves you around; mkdir creates directories\n.. refers to the parent directory; ~ refers to your home directory\nTab completion reduces errors and saves time use it constantly\nman opens the manual for any command",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Navigating the file system</span>"
+    ]
+  },
+  {
+    "objectID": "03-files.html",
+    "href": "03-files.html",
+    "title": "3  Working with files",
+    "section": "",
+    "text": "3.1 Touching (Creating an empty file)\nThe command touch creates an empty file and also updates the timestamp of an existing file without changing its contents:",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Working with files</span>"
+    ]
+  },
+  {
+    "objectID": "03-files.html#touching-creating-an-empty-file",
+    "href": "03-files.html#touching-creating-an-empty-file",
+    "title": "3  Working with files",
+    "section": "",
+    "text": "cd ~/training\ntouch notes.txt\nls\n\n\n\n\n\n\nNote\n\n\n\nEmpty files might seem useless, but touch is handy for quickly creating placeholder files, or for testing commands before applying them to real data.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Working with files</span>"
+    ]
+  },
+  {
+    "objectID": "03-files.html#copying-making-a-duplicate",
+    "href": "03-files.html#copying-making-a-duplicate",
+    "title": "3  Working with files",
+    "section": "3.2 Copying (Making a duplicate)",
+    "text": "3.2 Copying (Making a duplicate)\nThe command cp (copy) duplicates a file. The syntax is:\ncp source destination\nFor example:\ncp notes.txt notes_backup.txt\nls\nTo copy a whole directory and everything inside it, add the -r flag (recursive):\ncp -r data data_backup",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Working with files</span>"
+    ]
+  },
+  {
+    "objectID": "03-files.html#moving-relocating-or-renaming",
+    "href": "03-files.html#moving-relocating-or-renaming",
+    "title": "3  Working with files",
+    "section": "3.3 Moving (Relocating or renaming)",
+    "text": "3.3 Moving (Relocating or renaming)\nThe command mv (move) moves a file to a new location and also serves as the way to rename files in Unix, since there is no separate rename command:\n# rename a file\nmv notes.txt readme.txt\n\n# move it into a subdirectory\nmv readme.txt data/readme.txt\n\n\n\n\n\n\nWarning\n\n\n\nmv will silently overwrite the destination if a file with that name already exists there. Always double-check before moving.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Working with files</span>"
+    ]
+  },
+  {
+    "objectID": "03-files.html#removing-deleting-permanently",
+    "href": "03-files.html#removing-deleting-permanently",
+    "title": "3  Working with files",
+    "section": "3.4 Removing (Deleting permanently)",
+    "text": "3.4 Removing (Deleting permanently)\nThe command rm (remove) deletes files. Unlike moving something to the Trash, there is no undo:\nrm notes_backup.txt\nTo remove a directory and all its contents:\nrm -r data_backup\n\n\n\n\n\n\nWarning\n\n\n\nBe very careful with rm -r. A common safety habit is to use rm -ri instead, which asks for confirmation before deleting each item:\nrm -ri data_backup",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Working with files</span>"
+    ]
+  },
+  {
+    "objectID": "03-files.html#concatenating-printing-a-whole-file",
+    "href": "03-files.html#concatenating-printing-a-whole-file",
+    "title": "3  Working with files",
+    "section": "3.5 Concatenating (Printing a whole file)",
+    "text": "3.5 Concatenating (Printing a whole file)\nThe command cat (catenate) prints the entire contents of a file to the terminal:\ncat data/readme.txt\ncat is fast and simple, but prints everything at once not ideal for large files.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Working with files</span>"
+    ]
+  },
+  {
+    "objectID": "03-files.html#head-and-tail-peeking-at-the-beginning-or-end",
+    "href": "03-files.html#head-and-tail-peeking-at-the-beginning-or-end",
+    "title": "3  Working with files",
+    "section": "3.6 Head and tail (Peeking at the beginning or end)",
+    "text": "3.6 Head and tail (Peeking at the beginning or end)\nhead shows the first 10 lines of a file by default:\nhead data/readme.txt\nUse -n to choose a different number of lines:\nhead -n 5 data/readme.txt\ntail shows the last 10 lines:\ntail data/readme.txt\nThese are especially useful for large biological data files you can check the format without loading the whole thing.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Working with files</span>"
+    ]
+  },
+  {
+    "objectID": "03-files.html#less-scrolling-through-a-large-file",
+    "href": "03-files.html#less-scrolling-through-a-large-file",
+    "title": "3  Working with files",
+    "section": "3.7 Less (Scrolling through a large file)",
+    "text": "3.7 Less (Scrolling through a large file)\nFor files too large to comfortably cat, less opens them in an interactive scrollable viewer:\nless data/readme.txt\n\n\n\nKey\nAction\n\n\n\n\nSpace\nPage down\n\n\nb\nPage up\n\n\n↓ / ↑\nOne line at a time\n\n\n/pattern\nSearch for pattern\n\n\nn\nNext search result\n\n\nq\nQuit\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nYou will use less constantly when working with FASTQ, FASTA, and other large genomics files. It never loads the whole file into memory, so it works even on files that are gigabytes in size.\n\n\n\n\n\n\n\n\n\nCaution✏️ Exercise 3.1\n\n\n\n\nNavigate to ~/training\nCreate a file called experiment.txt inside the data/ directory\nMake a copy of it called experiment_v2.txt in the same directory\nRename experiment.txt to experiment_v1.txt\nList the contents of data/ to confirm\n\n\n\n\n\n\n\nNoteSolution\n\n\n\n\n\ncd ~/training\ntouch data/experiment.txt\ncp data/experiment.txt data/experiment_v2.txt\nmv data/experiment.txt data/experiment_v1.txt\nls data/\n\n\n\n\n\n\n\n\n\n\n\nImportant🚀 Bonus: for those who want more\n\n\n\nThe command wc (word count) counts lines, words and characters in a file:\nwc data/readme.txt\nThe output format is: lines  words  characters  filename\nUse wc -l to count only lines. We will use this in Chapter 5 to count sequences in a FASTA file.\n\n\n\n\n\n\n\n\n\nTip🔑 Key points\n\n\n\n\ntouch creates an empty file; cp copies; mv moves or renames; rm deletes permanently there is no undo\ncat prints a whole file; head and tail show the beginning and end; less lets you scroll through large files\nAlways double-check before using rm -r",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Working with files</span>"
+    ]
+  },
+  {
+    "objectID": "04-install.html",
+    "href": "04-install.html",
+    "title": "4  Installing programmes",
+    "section": "",
+    "text": "4.1 Is it already there? (Checking availability)\nBefore installing anything, it is worth checking whether the programme is already available. The command which tells you where on the system a given programme lives:\nIf the programme is installed, which prints its path, e.g.:\nIf it is not found, which prints nothing (or an error). You can also check the version of an installed programme — most accept either --version or -v:",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Installing programmes</span>"
+    ]
+  },
+  {
+    "objectID": "04-install.html#is-it-already-there-checking-availability",
+    "href": "04-install.html#is-it-already-there-checking-availability",
+    "title": "4  Installing programmes",
+    "section": "",
+    "text": "which curl\n\n/usr/bin/curl\n\ncurl --version\n\n\n\n\n\n\nTip\n\n\n\nRunning which and --version before installing anything is a good habit. Many tools are already present on your system, and reinstalling them unnecessarily can cause conflicts.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Installing programmes</span>"
+    ]
+  },
+  {
+    "objectID": "04-install.html#how-installation-works-on-unix",
+    "href": "04-install.html#how-installation-works-on-unix",
+    "title": "4  Installing programmes",
+    "section": "4.2 How installation works on Unix",
+    "text": "4.2 How installation works on Unix\nWhen you type a command, the shell searches a list of directories called the PATH to find the corresponding programme. If it finds it, it runs it. If not, you get command not found.\nInstalling a programme means placing it (or a link to it) somewhere on your PATH. There are several common ways to do this:\n\nSystem package managers\nThe most common approach is to use the system package manager, which handles downloading, installing, and keeping track of software:\n\n\n\nSystem\nPackage manager\nExample\n\n\n\n\nUbuntu / Debian\napt\nsudo apt install tree\n\n\nFedora / RHEL\ndnf\nsudo dnf install tree\n\n\nmacOS (Homebrew)\nbrew\nbrew install tree\n\n\nWindows (MobaXterm)\napt\napt install tree\n\n\n\nThe word sudo (superuser do) runs the command with administrator privileges, required when installing software system-wide. MobaXterm users do not need sudo — it runs in a user-level environment where apt works directly.\n\n\nShell installer scripts\nSome tools are distributed as installer scripts that you download and run directly in the shell. This is the approach used by NCBI Entrez Direct, Conda, and many others. The general pattern is:\ncurl -fsSL https://example.com/install.sh | sh\nThis downloads an install script with curl and pipes it directly into the shell to execute. We will use exactly this pattern to install Entrez Direct below.\n\n\n\n\n\n\nWarning\n\n\n\nPiping a script from the internet directly into your shell is convenient, but you are trusting the source. Only do this with scripts from well-known, reputable organisations (NCBI, Conda, Homebrew, etc.).",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Installing programmes</span>"
+    ]
+  },
+  {
+    "objectID": "04-install.html#installing-ncbi-entrez-direct",
+    "href": "04-install.html#installing-ncbi-entrez-direct",
+    "title": "4  Installing programmes",
+    "section": "4.3 Installing NCBI Entrez Direct",
+    "text": "4.3 Installing NCBI Entrez Direct\nNCBI Entrez Direct (EDirect) is a set of command-line tools for querying NCBI databases, including downloading sequences, searching PubMed, and retrieving metadata. We will use it in the next chapter to download a genome directly from the command line.\n\nStep 1: Check if it is already installed\nwhich efetch\nIf you get a path back (e.g. ~/edirect/efetch), it is already installed — skip to Step 3.\n\n\nStep 2: Run the installer\nsh -c \"$(curl -fsSL https://ftp.ncbi.nlm.nih.gov/entrez/entrezdirect/install-edirect.sh)\"\nBreaking this down:\n\n\n\nPart\nMeaning\n\n\n\n\ncurl -fsSL &lt;url&gt;\nDownload the installer script silently\n\n\n-f\nFail silently on server errors\n\n\n-s\nSilent mode (no progress bar)\n\n\n-S\nShow errors even in silent mode\n\n\n-L\nFollow redirects\n\n\nsh -c \"$(…)\"\nExecute the downloaded script in the current shell\n\n\n\nWhen prompted, allow the installer to add edirect to your PATH.\n\n\nStep 3: Reload your PATH\nAfter installation, close and reopen your terminal, or run:\nexport PATH=\"${HOME}/edirect:${PATH}\"\nThis temporarily adds the edirect directory to your PATH for the current session. The installer should have added it permanently to your shell configuration file (.bashrc or .zshrc) for future sessions.\n\n\nStep 4: Verify the installation\nwhich efetch\nefetch --help | head -n 5\nYou should see the path to efetch and the beginning of its help text.\n\n\n\n\n\n\nNote\n\n\n\nWindows / MobaXterm users: the installer may not complete successfully. If which efetch returns nothing after running the installer, use the curl backup method in the next chapter, which will work on all systems.\n\n\n\n\n\n\n\n\n\nCaution✏️ Exercise 4.1\n\n\n\nCheck whether the following programmes are installed on your system, and if so, what version they are:\n\ncurl\nwget\nefetch (after installing)\n\n\n\n\n\n\n\nNoteSolution\n\n\n\n\n\nwhich curl && curl --version | head -n 1\nwhich wget && wget --version | head -n 1\nwhich efetch && efetch --version\ncurl is present on virtually all systems. wget is common on Linux and available in MobaXterm, but not installed by default on macOS. efetch should be present if the installation above succeeded.\n\n\n\n\n\n\n\n\n\n\n\nImportant🚀 Bonus: for those who want more\n\n\n\nLook at what the Entrez Direct installer script actually does before running it:\ncurl -fsSL https://ftp.ncbi.nlm.nih.gov/entrez/entrezdirect/install-edirect.sh | less\nCan you identify which directory it installs into, and which configuration file it modifies to update your PATH?\n\n\n\n\n\n\n\n\n\nTip🔑 Key points\n\n\n\n\nwhich checks whether a programme is on your PATH; --version confirms what is installed\nSystem package managers (apt, brew) are the standard way to install software on Linux and macOS; MobaXterm uses apt without sudo\nSome tools are installed by downloading and running a shell script — only do this from trusted sources\nNCBI Entrez Direct provides efetch and other tools for querying NCBI databases from the command line",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Installing programmes</span>"
+    ]
+  },
+  {
+    "objectID": "05-fetch.html",
+    "href": "05-fetch.html",
+    "title": "5  Fetching sequence data",
+    "section": "",
+    "text": "5.1 The NCBI databases\nThe National Center for Biotechnology Information (NCBI) maintains a large family of interconnected biological databases. They can all be queried from the command line using the Entrez Direct tools we installed in the previous chapter (Kans 2013).\nThe most commonly used databases in genomics work are:\nThese databases are cross-linked: a genome record links to its taxonomy entry, its raw reads in SRA, and the papers that described it.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Fetching sequence data</span>"
+    ]
+  },
+  {
+    "objectID": "05-fetch.html#the-organism-pelagibacter-ubique-htcc1062",
+    "href": "05-fetch.html#the-organism-pelagibacter-ubique-htcc1062",
+    "title": "5  Fetching sequence data",
+    "section": "5.4 The organism: Pelagibacter ubique HTCC1062",
+    "text": "5.4 The organism: Pelagibacter ubique HTCC1062\nWe will work with strain HTCC1062, the first SAR11 isolate ever brought into pure culture. Its genome (accession NC_007205.1) is small at ~1.3 Mb and extraordinarily well-studied.\n\n\n\n\n\n\nNote\n\n\n\nGenome streamlining is an evolutionary strategy common in bacteria living in stable, nutrient-poor environments like the open ocean. P. ubique has one of the smallest genomes of any free-living organism, with almost no non-coding DNA and very few regulatory elements every gene kept is there for a reason.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Fetching sequence data</span>"
+    ]
+  },
+  {
+    "objectID": "05-fetch.html#the-fasta-format-what-does-sequence-data-look-like",
+    "href": "05-fetch.html#the-fasta-format-what-does-sequence-data-look-like",
+    "title": "5  Fetching sequence data",
+    "section": "5.5 The FASTA format (What does sequence data look like?)",
+    "text": "5.5 The FASTA format (What does sequence data look like?)\nA FASTA file is one of the simplest and most widely used formats in bioinformatics. Each sequence entry has two parts:\n\nA header line starting with &gt;, containing the sequence identifier and optional description\nOne or more lines of sequence data (60-70 characters per line by convention)\n\n&gt;NC_007205.1 Candidatus Pelagibacter ubique HTCC1062, complete sequence\nAGTTTTCGAATTTGAATTTTAAGAAGTTTCGAATTTGAATTTGAAGAAATTTCGAATTT\nGAATTTGAAAAAGTTTCGAATTTGAATTTGAAGAAATTTCGAATTTGAATTTGAAAAAG\n...\nA FASTA file can hold a single sequence (as here) or many sequences a multi-FASTA file which is common for collections of genes or protein sequences.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Fetching sequence data</span>"
+    ]
+  },
+  {
+    "objectID": "05-fetch.html#fetching-downloading-from-ncbi",
+    "href": "05-fetch.html#fetching-downloading-from-ncbi",
+    "title": "5  Fetching sequence data",
+    "section": "5.6 Fetching (Downloading from NCBI)",
+    "text": "5.6 Fetching (Downloading from NCBI)\nLet’s move into our data directory:\ncd ~/training/data\n\nMethod 1: efetch\nIf Entrez Direct is installed (see Chapter 4), fetch the genome directly:\nefetch -db nucleotide -id NC_007205.1 -format fasta &gt; pelagibacter_ubique.fasta\n\n\n\nPart\nMeaning\n\n\n\n\nefetch\nThe NCBI fetch tool\n\n\n-db nucleotide\nThe nucleotide database\n\n\n-id NC_007205.1\nThe accession number\n\n\n-format fasta\nOutput in FASTA format\n\n\n&gt; pelagibacter_ubique.fasta\nRedirect output to a file\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nThe &gt; symbol redirects command output into a file instead of printing to the screen. We explore this in depth in Chapter 6.\n\n\n\n\nMethod 2: curl (backup for all systems)\nIf efetch is not available, download directly from GitHub:\ncurl -L -o pelagibacter_ubique.fasta \\\n  https://raw.githubusercontent.com/clarajegousse/training-data/main/pelagibacter_ubique.fasta\n\n\n\nFlag\nMeaning\n\n\n\n\n-L\nFollow redirects\n\n\n-o pelagibacter_ubique.fasta\nSave to this filename\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nwget works identically for simple downloads and is common on Linux and in MobaXterm:\nwget -O pelagibacter_ubique.fasta \\\n  https://raw.githubusercontent.com/clarajegousse/training-data/main/pelagibacter_ubique.fasta",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Fetching sequence data</span>"
+    ]
+  },
+  {
+    "objectID": "05-fetch.html#verifying-did-it-work",
+    "href": "05-fetch.html#verifying-did-it-work",
+    "title": "5  Fetching sequence data",
+    "section": "5.7 Verifying (Did it work?)",
+    "text": "5.7 Verifying (Did it work?)\nAlways check the file exists and has a sensible size:\nls -lh pelagibacter_ubique.fasta\nYou should see around 1.4 MB. A file of 0 bytes or a few hundred bytes means something went wrong.\nPeek at the beginning:\nhead pelagibacter_ubique.fasta\nYou should see a header starting with &gt;NC_007205.1 followed by lines of A, T, G, C.\n\n\n\n\n\n\n\nCaution✏️ Exercise 5.1\n\n\n\n\nSearch NCBI taxonomy to confirm the TaxID of Pelagibacter ubique\nCheck how many complete genome sequences exist for this organism\nDownload the genome using either efetch or curl\nVerify the download with ls -lh and head -n 5\n\n\n\n\n\n\n\nNoteSolution\n\n\n\n\n\n# 1. Taxonomy search (genus level, then cross-check on web portal)\nesearch -db taxonomy -query \"Pelagibacter\" \\\n  | efetch -format docsum \\\n  | xtract -pattern DocumentSummary -element TaxId ScientificName Rank\n\n# 2. Genome count using TaxID\nesearch -db nucleotide \\\n  -query \"txid335992[ORGN] AND complete genome[TITL]\" \\\n  | grep \"&lt;Count&gt;\"\n\n# 3. Download\nefetch -db nucleotide -id NC_007205.1 -format fasta &gt; pelagibacter_ubique.fasta\n# or:\ncurl -L -o pelagibacter_ubique.fasta \\\n  https://raw.githubusercontent.com/clarajegousse/training-data/main/pelagibacter_ubique.fasta\n\n# 4. Verify\nls -lh pelagibacter_ubique.fasta\nhead -n 5 pelagibacter_ubique.fasta\n\n\n\n\n\n\n\n\n\n\n\n\nTip🔑 Key points\n\n\n\n\nNCBI maintains interconnected databases for sequences, genomes, taxonomy, literature, and raw reads\nEvery organism has a unique TaxID; esearch -db taxonomy retrieves it\nesearch counts and filters records; efetch downloads them\nFASTA is a simple two-part format: a &gt; header line followed by sequence data\nAlways verify downloads with ls -lh and head\n\n\n\n\n\n\n\nKans, Jonathan. 2013. Entrez Direct: E-Utilities on the Unix Command Line. Bethesda (MD): National Center for Biotechnology Information (US). https://www.ncbi.nlm.nih.gov/books/NBK179288/.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Fetching sequence data</span>"
+    ]
+  },
+  {
+    "objectID": "06-explore.html",
+    "href": "06-explore.html",
+    "title": "6  Exploring sequence data",
+    "section": "",
+    "text": "6.1 Searching (Is this pattern in here?)\nThe command grep (global regular expression print) reads a file line by line and prints every line that contains a given pattern.\nLet’s confirm our FASTA file has a header:\nThis prints every line containing &gt;. In a single-sequence FASTA file, there is exactly one such line.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Exploring sequence data</span>"
+    ]
+  },
+  {
+    "objectID": "06-explore.html#searching-is-this-pattern-in-here",
+    "href": "06-explore.html#searching-is-this-pattern-in-here",
+    "title": "6  Exploring sequence data",
+    "section": "",
+    "text": "grep \"&gt;\" pelagibacter_ubique.fasta\n\n\nUseful grep flags\n\n\n\nFlag\nEffect\n\n\n\n\n-c\nCount matching lines instead of printing them\n\n\n-i\nCase-insensitive matching\n\n\n-v\nInvert: print lines that do not match\n\n\n-n\nShow line numbers alongside matches\n\n\n\nHow many header lines are in the file?\ngrep -c \"&gt;\" pelagibacter_ubique.fasta\nFor a single genome this gives 1. In a multi-FASTA file say, all predicted proteins of an organism this tells you the number of sequences.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Exploring sequence data</span>"
+    ]
+  },
+  {
+    "objectID": "06-explore.html#counting-how-much-is-here",
+    "href": "06-explore.html#counting-how-much-is-here",
+    "title": "6  Exploring sequence data",
+    "section": "6.2 Counting (How much is here?)",
+    "text": "6.2 Counting (How much is here?)\nThe command wc (word count) counts lines, words and characters in a file:\nwc pelagibacter_ubique.fasta\nThe output format is: lines  words  characters  filename\nTo count only lines:\nwc -l pelagibacter_ubique.fasta\n\n\n\n\n\n\nNote\n\n\n\nEach line of sequence in a FASTA file is typically 60–70 characters wide. If you subtract 1 (the header line) and multiply the remaining line count by the line length, you get a rough estimate of the genome size though the last line is usually shorter.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Exploring sequence data</span>"
+    ]
+  },
+  {
+    "objectID": "06-explore.html#piping-chaining-commands-together",
+    "href": "06-explore.html#piping-chaining-commands-together",
+    "title": "6  Exploring sequence data",
+    "section": "6.3 Piping (Chaining commands together)",
+    "text": "6.3 Piping (Chaining commands together)\nA pipe (|) takes the output of one command and passes it directly as input to the next, without creating an intermediate file. Think of it as connecting two tools in a pipeline.\nLet’s count only the sequence lines (excluding the header):\ngrep -v \"&gt;\" pelagibacter_ubique.fasta | wc -l\nThis does two things in one step:\n\ngrep -v \"&gt;\" selects all lines that are not headers\n| wc -l counts those lines\n\nYou can chain as many commands as you like:\ngrep -v \"&gt;\" pelagibacter_ubique.fasta | wc -c\nThis counts the total number of characters in the sequence lines a close approximation of the genome length in base pairs (note: it includes the newline character at the end of each line, so the true bp count is slightly lower).",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Exploring sequence data</span>"
+    ]
+  },
+  {
+    "objectID": "06-explore.html#redirecting-saving-output-to-a-file",
+    "href": "06-explore.html#redirecting-saving-output-to-a-file",
+    "title": "6  Exploring sequence data",
+    "section": "6.4 Redirecting (Saving output to a file)",
+    "text": "6.4 Redirecting (Saving output to a file)\nYou already used &gt; to redirect efetch output into a file. You can redirect the output of any command:\ngrep \"&gt;\" pelagibacter_ubique.fasta &gt; headers.txt\ncat headers.txt\nUse &gt;&gt; to append to an existing file rather than overwriting it:\necho \"Source: NCBI accession NC_007205.1\" &gt;&gt; headers.txt\ncat headers.txt\n\n\n\n\n\n\nWarning\n\n\n\n&gt; overwrites the destination file if it already exists. Use &gt;&gt; when you want to add to a file. It is an easy mistake to accidentally overwrite data you wanted to keep.\n\n\n\n\n\n\n\n\n\nCaution✏️ Exercise 6.1\n\n\n\n\nHow many sequence lines (non-header lines) are in pelagibacter_ubique.fasta?\nUse a pipe to count the total number of characters in the sequence lines (excluding the header). How does this compare to the expected genome size of ~1,308,759 bp?\n\n\n\n\n\n\n\nNoteSolution\n\n\n\n\n\n# Count sequence lines\ngrep -v \"&gt;\" pelagibacter_ubique.fasta | wc -l\n\n# Count sequence characters\ngrep -v \"&gt;\" pelagibacter_ubique.fasta | wc -c\nThe character count will be slightly higher than 1,308,759 because wc -c also counts the newline character (\\n) at the end of each line. Subtract the number of sequence lines from the character count to get the true base pair count.\n\n\n\n\n\n\n\n\n\n\n\nImportant🚀 Bonus: for those who want more\n\n\n\nThe -o flag in grep prints only the matched portion of each line one occurrence per line. Use it to count how many times the start codon ATG appears in the genome:\ngrep -o \"ATG\" pelagibacter_ubique.fasta | wc -l\nThen try searching for the sigma-70 promoter consensus TATAAT:\ngrep -c \"TATAAT\" pelagibacter_ubique.fasta\n\n\n\n\n\n\nNoteNote\n\n\n\n\n\nThis is a naive search it finds the string anywhere in the file, in any reading frame, and on the forward strand only. Real promoter and gene prediction requires more sophisticated tools. But it demonstrates how quickly you can ask biological questions with just a few shell commands.\n\n\n\n\n\n\n\n\n\n\n\n\nTip🔑 Key points\n\n\n\n\ngrep searches for patterns; -c counts matches; -v inverts the search; -o prints only the match\nwc -l counts lines; wc -c counts characters\nThe pipe | passes output from one command directly to the next no intermediate file needed\n&gt; redirects output to a file (overwrites); &gt;&gt; appends without overwriting",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Exploring sequence data</span>"
+    ]
+  },
+  {
+    "objectID": "conclusion.html",
+    "href": "conclusion.html",
+    "title": "7  Conclusion",
+    "section": "",
+    "text": "7.1 What we covered\nIn this session you have gone from opening a terminal for the first time to downloading and querying a real bacterial genome. Specifically, you can now:\nThese are the building blocks of almost everything done in command-line bioinformatics.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Conclusion</span>"
+    ]
+  },
+  {
+    "objectID": "conclusion.html#what-we-covered",
+    "href": "conclusion.html#what-we-covered",
+    "title": "7  Conclusion",
+    "section": "",
+    "text": "Navigate a Unix file system using pwd, ls, cd, and mkdir\nCreate, copy, move and delete files and directories\nInstall command-line tools using package managers or installer scripts\nDownload sequences from NCBI using efetch or curl\nInspect biological files with head, tail, and less\nSearch for patterns with grep, count with wc, and chain commands with |",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Conclusion</span>"
+    ]
+  },
+  {
+    "objectID": "conclusion.html#command-reference",
+    "href": "conclusion.html#command-reference",
+    "title": "7  Conclusion",
+    "section": "7.3 Command reference",
+    "text": "7.3 Command reference\n\n\n\nCommand\nWhat it does\n\n\n\n\npwd\nPrint working directory\n\n\nls\nList directory contents\n\n\ncd\nChange directory\n\n\nmkdir\nMake a new directory\n\n\ntouch\nCreate an empty file\n\n\ncp\nCopy a file or directory\n\n\nmv\nMove or rename a file\n\n\nrm\nDelete a file (-r for directories)\n\n\ncat\nPrint file contents\n\n\nhead\nShow first lines of a file\n\n\ntail\nShow last lines of a file\n\n\nless\nScroll through a file\n\n\nwc\nCount lines, words, characters\n\n\ngrep\nSearch for patterns in files\n\n\necho\nPrint text to the terminal\n\n\nwhich\nFind where a programme is installed\n\n\nman\nOpen the manual for a command\n\n\nesearch\nSearch NCBI databases\n\n\nefetch\nFetch records from NCBI databases\n\n\ncurl\nDownload files from URLs",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Conclusion</span>"
+    ]
+  },
+  {
+    "objectID": "conclusion.html#where-to-go-next",
+    "href": "conclusion.html#where-to-go-next",
+    "title": "7  Conclusion",
+    "section": "7.4 Where to go next",
+    "text": "7.4 Where to go next\nThe shell is deep. Here are some natural next steps depending on your goals.\nIf you want to go further with genomics:\n\nData Carpentry: Shell Genomics covers redirection, loops, and bash scripts using real FASTQ data\nSoftware Carpentry: The Unix Shell provides comprehensive foundations\n\nIf you want to write scripts:\nStart with a simple bash script: a file ending in .sh containing the commands you would type interactively. Add a for loop when you need to repeat a task across multiple files.\nIf you need to work on a remote server (HPC):\n\nssh username@server.address connects to a remote machine\nscp or rsync copy files to and from a remote machine\nSLURM or PBS are the job schedulers most commonly used on university HPC clusters",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Conclusion</span>"
+    ]
+  },
+  {
+    "objectID": "conclusion.html#acknowledgements",
+    "href": "conclusion.html#acknowledgements",
+    "title": "7  Conclusion",
+    "section": "7.5 Acknowledgements",
+    "text": "7.5 Acknowledgements\nThis workshop is adapted from the Data Carpentry shell genomics lesson (Becker et al. 2019) and Clara Jégousse’s previous workshops.\n\n\n\n\nBecker, Erin Alison, Anita Schürch, Tracy Teal, Sheldon John McKay, Jessica Elizabeth Mizzi, François Michonneau, Amy E. Hodge, et al. 2019. “Datacarpentry/Shell-Genomics: Data Carpentry: Introduction to the Shell for Genomics Data, June 2019.” https://doi.org/10.5281/zenodo.3260560.\n\n\nNoble, William Stafford. 2009. “A Quick Guide to Organizing Computational Biology Projects.” PLOS Computational Biology 5 (7): e1000424. https://doi.org/10.1371/journal.pcbi.1000424.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Conclusion</span>"
+    ]
+  },
+  {
+    "objectID": "05-fetch.html#the-ncbi-databases",
+    "href": "05-fetch.html#the-ncbi-databases",
+    "title": "5  Fetching sequence data",
+    "section": "",
+    "text": "Database\nContents\nesearch -db name\n\n\n\n\nNucleotide\nDNA and RNA sequences (GenBank, RefSeq)\nnucleotide\n\n\nProtein\nProtein sequences\nprotein\n\n\nGenome\nWhole genome assemblies\ngenome\n\n\nTaxonomy\nOrganism classification and IDs\ntaxonomy\n\n\nSRA\nRaw sequencing reads\nsra\n\n\nPubMed\nBiomedical literature\npubmed\n\n\nAssembly\nGenome assembly records\nassembly\n\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nYou can list all available databases with:\neinfo -dbs",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Fetching sequence data</span>"
+    ]
+  },
+  {
+    "objectID": "05-fetch.html#finding-an-organisms-taxonomy-id",
+    "href": "05-fetch.html#finding-an-organisms-taxonomy-id",
+    "title": "5  Fetching sequence data",
+    "section": "5.2 Finding an organism’s taxonomy ID",
+    "text": "5.2 Finding an organism’s taxonomy ID\nEvery organism in NCBI has a unique taxonomy identifier (TaxID). This number is stable, species-specific, and used across all NCBI databases to unambiguously refer to an organism.\nLet’s try to find the TaxID for Pelagibacter ubique:\nesearch -db taxonomy -query \"Pelagibacter ubique\"\nYou should see something like:\n&lt;ENTREZ_DIRECT&gt;\n  &lt;Db&gt;taxonomy&lt;/Db&gt;\n  &lt;Count&gt;0&lt;/Count&gt;\n  ...\n&lt;/ENTREZ_DIRECT&gt;\nA count of 0. The command ran without error, but found nothing. This is an important lesson: the absence of an error message does not mean the result is correct. Always check whether the output actually makes sense.\n\n\n\n\n\n\nWarning\n\n\n\nCommand-line tools fail silently far more often than they fail loudly. A zero result, an empty file, or an unexpectedly small file are all signs that something may have gone wrong. Always sanity-check your output.\n\n\nIn this case, the issue is the Candidatus prefix. EDirect’s taxonomy search does not index Candidatus names reliably, so the full species name returns nothing.\n\nCross-checking with the web portal\nThis is exactly the kind of situation where stepping away from the command line and using the NCBI web portal is the right move. Open your browser and go to:\nhttps://www.ncbi.nlm.nih.gov/taxonomy\nSearch for Pelagibacter ubique there. You will find the entry for Candidatus Pelagibacter ubique HTCC1062 with TaxID 335992.\n\n\n\n\n\n\nNote\n\n\n\nThe Candidatus designation indicates a microorganism that has been characterised genetically but could not be cultivated in pure culture under standard laboratory conditions. P. ubique was finally brought into pure culture in 2007, after years of failed attempts. Using a TaxID rather than the species name sidesteps naming convention issues entirely, which is why TaxIDs are preferred in scripted workflows.\n\n\n\n\nSearching by genus\nBack on the command line, searching at genus level works:\nesearch -db taxonomy -query \"Pelagibacter\" \\\n  | efetch -format docsum \\\n  | xtract -pattern DocumentSummary -element TaxId ScientificName Rank\nThis confirms the TaxID 335992 we found on the web portal. From here, we use the TaxID for everything downstream.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Fetching sequence data</span>"
+    ]
+  },
+  {
+    "objectID": "05-fetch.html#how-many-genomes-are-available",
+    "href": "05-fetch.html#how-many-genomes-are-available",
+    "title": "5  Fetching sequence data",
+    "section": "5.3 How many genomes are available?",
+    "text": "5.3 How many genomes are available?\nNow that we have the TaxID, let’s ask NCBI how many nucleotide sequences exist for this organism. We use txid335992[ORGN] rather than the species name, which avoids the Candidatus indexing problem entirely:\nesearch -db nucleotide -query \"txid335992[ORGN]\" | grep \"&lt;Count&gt;\"\nWe can narrow down to complete genomes using the [TITL] field tag:\nesearch -db nucleotide -query \"txid335992[ORGN] AND complete genome[TITL]\" \\\n  | grep \"&lt;Count&gt;\"\nThe [ORGN] and [TITL] in brackets are search field tags that restrict where the query term is matched – the same syntax used in the NCBI web search interface, just expressed on the command line.\n\n\n\n\n\n\nImportant🚀 Bonus: for those who want more\n\n\n\nTry querying for other SAR11 relatives. How many complete genomes exist for the broader SAR11 clade?\nesearch -db nucleotide -query \"SAR11[ORGN] AND complete genome[TITL]\" \\\n  | grep \"&lt;Count&gt;\"\nYou can also use the TaxID directly with txid to include all strains:\nesearch -db nucleotide -query \"txid335992[ORGN]\" | grep \"&lt;Count&gt;\"",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Fetching sequence data</span>"
+    ]
+  },
+  {
+    "objectID": "conclusion.html#project-organisation",
+    "href": "conclusion.html#project-organisation",
+    "title": "7  Conclusion",
+    "section": "7.2 Project organisation",
+    "text": "7.2 Project organisation\nNow that you can create directories and files from the command line, a natural next step is to think carefully about how to organise your work. A well-structured project is easier to reproduce, easier to share, and much easier to return to after six months away.\nNoble (2009) (Noble 2009) describes a practical, widely adopted directory structure for computational biology projects, with separate directories for raw data, results, scripts, and documentation. It is a short, readable paper and strongly recommended.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Conclusion</span>"
+    ]
+  },
+  {
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "References",
+    "section": "",
+    "text": "Becker, Erin Alison, Anita Schürch, Tracy Teal, Sheldon John McKay,\nJessica Elizabeth Mizzi, François Michonneau, Amy E. Hodge, et al. 2019.\n“Datacarpentry/Shell-Genomics: Data Carpentry: Introduction to the\nShell for Genomics Data, June 2019.” https://doi.org/10.5281/zenodo.3260560.\n\n\nKans, Jonathan. 2013. Entrez Direct: E-Utilities on the\nUnix Command Line. Bethesda (MD): National Center for\nBiotechnology Information (US). https://www.ncbi.nlm.nih.gov/books/NBK179288/.\n\n\nNoble, William Stafford. 2009. “A Quick Guide to Organizing\nComputational Biology Projects.” PLOS Computational\nBiology 5 (7): e1000424. https://doi.org/10.1371/journal.pcbi.1000424.",
+    "crumbs": [
+      "References"
+    ]
+  },
+  {
+    "objectID": "index.html#how-this-workshop-works",
+    "href": "index.html#how-this-workshop-works",
+    "title": "Introduction to the Shell for Bioinformatics",
+    "section": "How this workshop works",
+    "text": "How this workshop works\nThis workshop is designed for a mixed audience. Some of you have never opened a terminal before; others are already comfortable at the command line. Both are welcome, and the material is structured to accommodate everyone.\nThe guided session covers Chapters 1 to 4. We will work through these together, at a pace that ensures everyone can follow along. Each chapter contains 🚀 Bonus callouts with extra challenges — if you finish a section early, these will keep you busy while others catch up.\nChapters 5 and 6 cover fetching and exploring real genomic data. If you are comfortable with the command line, you are encouraged to work through these on your own during the session. For everyone else, they are self-directed follow-up material. The instructor will be available online in the weeks following the session for any questions.\n\n\n\n\n\n\nTip\n\n\n\nGetting stuck is normal and expected. If something does not work, raise your hand — there is a good chance your neighbour has the same problem, and troubleshooting together is part of learning.",
+    "crumbs": [
+      "Preface"
+    ]
+  }
+]

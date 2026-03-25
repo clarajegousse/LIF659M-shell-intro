@@ -1,0 +1,171 @@
+# Exploring sequence data
+
+::: {.callout-note icon=false}
+## ⏳ Time
+- Teaching: 8 min
+- Exercises: 5 min (+ bonus)
+:::
+
+::: {.callout-note icon=false}
+## 🤔 Questions
+- How do I search for patterns inside a file?
+- How do I count lines, words and characters?
+- How do I chain commands together?
+:::
+
+::: {.callout-note icon=false}
+## 🎯 Objectives
+- Use `grep` to search for patterns in a FASTA file
+- Use `wc` to count lines and estimate sequence length
+- Use the pipe `|` to chain commands
+:::
+
+---
+
+## Searching inside files — `grep`
+
+`grep` (**g**lobal **r**egular **e**xpression **p**rint) searches a file line by line and prints every line that contains a given pattern.
+
+Let's confirm our FASTA file has a header:
+
+```bash
+grep ">" pelagibacter_ubique.fasta
+```
+
+This prints every line containing `>`. In a single-sequence FASTA file, there is only one such line.
+
+### Useful `grep` flags {.unnumbered}
+
+| Flag | Effect |
+|------|--------|
+| `-c` | Count matching lines instead of printing them |
+| `-i` | Case-insensitive matching |
+| `-v` | Invert — print lines that do **not** match |
+| `-n` | Show line numbers |
+
+How many header lines are in the file?
+
+```bash
+grep -c ">" pelagibacter_ubique.fasta
+```
+
+For a single genome sequence the answer is `1`. In a multi-FASTA file (e.g. all the genes of an organism), this tells you the number of sequences.
+
+---
+
+## Counting with `wc`
+
+`wc` stands for **word count** but it counts lines, words and characters:
+
+```bash
+wc pelagibacter_ubique.fasta
+```
+
+Output format: `lines  words  characters  filename`
+
+To count only lines:
+
+```bash
+wc -l pelagibacter_ubique.fasta
+```
+
+::: {.callout-note}
+Each line of sequence in a FASTA file is typically 60 or 70 characters long. If you subtract 1 (the header line) and multiply the remaining line count by the line length, you get an estimate of genome size — though the last line is usually shorter.
+:::
+
+---
+
+## Chaining commands with pipes — `|`
+
+A **pipe** (`|`) takes the output of one command and passes it directly as input to the next, without creating an intermediate file.
+
+Let's count the lines in the output of `grep` without saving to a file:
+
+```bash
+grep -v ">" pelagibacter_ubique.fasta | wc -l
+```
+
+This:
+1. `grep -v ">"` — selects all lines that are **not** headers (i.e. just sequence lines)
+2. `| wc -l` — counts those lines
+
+You can chain as many commands as you need:
+
+```bash
+grep -v ">" pelagibacter_ubique.fasta | wc -c
+```
+
+This counts the total number of **characters** in the sequence lines — a rough proxy for genome length in base pairs (note: it includes newline characters, so the true bp count is slightly lower).
+
+---
+
+## Redirecting output — `>`
+
+You have already used `>` to save `efetch` output to a file. You can redirect the output of any command:
+
+```bash
+grep ">" pelagibacter_ubique.fasta > headers.txt
+cat headers.txt
+```
+
+Use `>>` to **append** to an existing file rather than overwriting it:
+
+```bash
+echo "Downloaded from NCBI: NC_007205.1" >> headers.txt
+cat headers.txt
+```
+
+---
+
+::: {.callout-caution icon=false}
+## ✏️ Exercise 5.1
+
+1. How many sequence lines (non-header lines) are in `pelagibacter_ubique.fasta`?
+2. Use a pipe to count the total number of characters in the sequence (excluding the header). How does this compare to the expected genome size of ~1.3 Mb?
+
+::: {.callout-note collapse=true icon=false}
+## Solution
+```bash
+# Count sequence lines
+grep -v ">" pelagibacter_ubique.fasta | wc -l
+
+# Count sequence characters
+grep -v ">" pelagibacter_ubique.fasta | wc -c
+```
+
+The character count will be slightly higher than 1,308,759 bp (the true genome size) because `wc -c` also counts the newline character (`\n`) at the end of each line. The number of sequence lines multiplied by ~60 gives a good estimate.
+:::
+:::
+
+::: {.callout-important icon=false}
+## 🚀 Bonus — for those who want more
+
+Search for the string `ATG` (the standard start codon) in the sequence:
+
+```bash
+grep -o "ATG" pelagibacter_ubique.fasta | wc -l
+```
+
+The `-o` flag prints only the matched part of each line (one match per line), so `wc -l` counts the total occurrences. How many start codons can you find?
+
+Then try searching for a specific motif — for example the sigma-70 promoter consensus `TATAAT`:
+
+```bash
+grep -c "TATAAT" pelagibacter_ubique.fasta
+```
+
+::: {.callout-note collapse=true icon=false}
+## Note
+This is a very naive search — it finds the string in any reading frame and on either strand. Real promoter prediction uses more sophisticated tools. But it shows the power of even simple shell commands for biological questions.
+:::
+:::
+
+---
+
+::: {.callout-tip icon=false}
+## 🔑 Key points
+- `grep` searches for patterns in files; `-c` counts matches; `-v` inverts the search
+- `wc -l` counts lines; `wc -c` counts characters
+- The pipe `|` passes output from one command directly into the next — no intermediate file needed
+- `>` redirects output to a file (overwrites); `>>` appends to an existing file
+:::

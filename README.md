@@ -36,4 +36,4 @@ efetch -db nucleotide -id NC_007205.1 -format fasta > pelagibacter_ubique.fasta
 
 ## Acknowledgements
 
-Adapted from [Data Carpentry: Shell Genomics](https://datacarpentry.org/shell-genomics/) and previous workshops by Clara Jégousse.
+Adapted from [Data Carpentry: Shell Genomics](https://datacarpentry.org/shell-genomics/).

@@ -1,0 +1,36 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "Introduction to the Shell for Bioinformatics"
+  author: "Clara Jégousse"
+  date: today
+  chapters:
+    - index.qmd
+    - 01-intro.qmd
+    - 02-navigation.qmd
+    - 03-files.qmd
+    - 04-install.qmd
+    - 05-fetch.qmd
+    - 06-explore.qmd
+    - conclusion.qmd
+    - references.qmd
+
+  page-footer:
+    left: "LÍF659M — University of Iceland"
+    right: "Clara Jégousse"
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-copy: false
+    code-tools: false
+    highlight-style: github
+    linestretch: 1.7
+    mainfont: "Roboto"

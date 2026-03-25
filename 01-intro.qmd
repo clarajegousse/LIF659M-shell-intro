@@ -1,0 +1,158 @@
+# Introducing the shell
+
+::: {.callout-note icon=false}
+## ⏳ Time
+- Teaching: 10 min
+- Exercises: 5 min
+:::
+
+::: {.callout-note icon=false}
+## 🤔 Questions
+- What is the shell and why should I learn it?
+- What does a command look like?
+- How do I know the shell is ready for input?
+:::
+
+::: {.callout-note icon=false}
+## 🎯 Objectives
+- Explain the difference between the shell and a graphical interface
+- Identify the prompt and understand what it signals
+- Run your first commands
+:::
+
+---
+
+## What is the shell?
+
+A **shell** is a program that lets you interact with your computer by typing commands. Instead of clicking on icons and menus, a *graphical user interface* (GUI),you type instructions and the computer responds with text output.
+
+The shell we will use is called **bash** (Bourne Again SHell). It is the default on most Linux systems and on older Macs. On newer Macs the default is **zsh**, which is nearly identical for our purposes.
+
+### Why bother? {.unnumbered}
+
+You might wonder why anyone would use a text interface when GUIs exist. Here are three reasons that matter in bioinformatics:
+
+1. **Most bioinformatics tools have no GUI.** Programs like BLAST, HMMER, Bowtie, and Samtools are run exclusively from the command line.
+2. **Automation.** When you need to process hundreds of files, a few lines of shell code replaces hours of pointing and clicking.
+3. **Remote computing.** High-performance computing clusters, where large genomic analyses actually run,are only accessible via the shell.
+
+---
+
+## Opening the terminal
+
+Depending on your operating system, you opened the terminal following the setup instructions in the [Preface](index.qmd). You should see a window with some text and a blinking cursor. That text is the **prompt**.
+
+---
+
+## The prompt (Am I ready?)
+
+The prompt tells you the shell is waiting for input. It typically looks something like this:
+
+```
+username@computer:~$
+```
+
+The exact appearance varies, but what matters is the `$` (or `%` on zsh) at the end this signals that the shell is ready. **Do not type the `$` when following examples in this workshop.** It is shown only to indicate a command you should type.
+
+---
+
+## Your first commands
+
+Let's run a few simple commands to get comfortable.
+
+### Identifying yourself (Who am I?) {.unnumbered}
+
+The command `whoami` prints your username:
+
+```bash
+whoami
+```
+
+### Checking the time (What time is it?) {.unnumbered}
+
+The command `date` prints the current date and time:
+
+```bash
+date
+```
+
+### Clearing the screen (Clean slate) {.unnumbered}
+
+The command `clear` clears the terminal screen. Your previous output is not lost you can still scroll up to see it.
+
+```bash
+clear
+```
+
+::: {.callout-tip}
+The keyboard shortcut `Ctrl + L` does the same thing as `clear`.
+:::
+
+### Printing text (Talking to yourself) {.unnumbered}
+
+The command `echo` prints whatever you give it back to the screen:
+
+```bash
+echo "Hello, world"
+```
+
+You will see `echo` again when we write scripts.
+
+---
+
+## The anatomy of a command
+
+Most shell commands follow this pattern:
+
+```
+command [options] [arguments]
+```
+
+- **command**: the programme to run (e.g. `ls`)
+- **options** (or *flags*): modify the behaviour, usually starting with `-` (e.g. `-l`)
+- **arguments**: the target the command acts on (e.g. a filename or directory)
+
+We will see this pattern in action throughout the workshop.
+
+---
+
+::: {.callout-caution icon=false}
+## ✏️ Exercise 1.1
+
+Run `echo` with your own name:
+
+```bash
+echo "Hello, my name is Clara"
+```
+
+Now try running `echo` without any argument just type `echo` and press Enter. What happens?
+
+::: {.callout-note collapse=true icon=false}
+## Solution
+`echo` with no argument prints a blank line. It still runs it just has nothing to print. This illustrates that commands can often be run without arguments, though the result may not be very useful.
+:::
+:::
+
+::: {.callout-important icon=false}
+## 🚀 Bonus: for those who want more
+
+Find out what version of bash (or zsh) you are running:
+
+```bash
+echo $BASH_VERSION
+# or on newer Macs:
+echo $ZSH_VERSION
+```
+
+The `$` before a word tells the shell to treat it as a **variable** a named value stored in memory. `$BASH_VERSION` is a variable the shell sets automatically when it starts.
+:::
+
+---
+
+::: {.callout-tip icon=false}
+## 🔑 Key points
+- The shell is a text-based interface for interacting with your computer
+- The prompt (`$`) signals the shell is ready for input
+- Commands follow the pattern: `command [options] [arguments]`
+- `whoami`, `date`, `clear`, and `echo` are simple starter commands
+:::

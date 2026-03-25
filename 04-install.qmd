@@ -1,0 +1,177 @@
+# Installing programmes
+
+::: {.callout-note icon=false}
+## ⏳ Time
+- Teaching: 10 min
+- Exercises: 5 min
+:::
+
+::: {.callout-note icon=false}
+## 🤔 Questions
+- How do software packages get installed on a Unix system?
+- How do I check whether a programme is already available?
+- How do I install something from the command line?
+:::
+
+::: {.callout-note icon=false}
+## 🎯 Objectives
+- Use `which` to check whether a programme is on your PATH
+- Check a programme's version with `--version`
+- Install a package using the system package manager
+- Install NCBI Entrez Direct using a shell installer script
+:::
+
+---
+
+## Is it already there? (Checking availability)
+
+Before installing anything, it is worth checking whether the programme is already available. The command `which` tells you where on the system a given programme lives:
+```bash
+which curl
+```
+
+If the programme is installed, `which` prints its path, e.g.:
+```
+/usr/bin/curl
+```
+
+If it is not found, `which` prints nothing (or an error). You can also check the version of an installed programme — most accept either `--version` or `-v`:
+```bash
+curl --version
+```
+
+::: {.callout-tip}
+Running `which` and `--version` before installing anything is a good habit. Many tools are already present on your system, and reinstalling them unnecessarily can cause conflicts.
+:::
+
+---
+
+## How installation works on Unix
+
+When you type a command, the shell searches a list of directories called the **PATH** to find the corresponding programme. If it finds it, it runs it. If not, you get `command not found`.
+
+Installing a programme means placing it (or a link to it) somewhere on your PATH. There are several common ways to do this:
+
+### System package managers {.unnumbered}
+
+The most common approach is to use the system package manager, which handles downloading, installing, and keeping track of software:
+
+| System | Package manager | Example |
+|--------|----------------|---------|
+| Ubuntu / Debian | `apt` | `sudo apt install tree` |
+| Fedora / RHEL | `dnf` | `sudo dnf install tree` |
+| macOS (Homebrew) | `brew` | `brew install tree` |
+| Windows (MobaXterm) | `apt` | `apt install tree` |
+
+The word `sudo` (**s**uper**u**ser **do**) runs the command with administrator privileges, required when installing software system-wide. MobaXterm users do not need `sudo` — it runs in a user-level environment where `apt` works directly.
+
+### Shell installer scripts {.unnumbered}
+
+Some tools are distributed as installer scripts that you download and run directly in the shell. This is the approach used by NCBI Entrez Direct, Conda, and many others. The general pattern is:
+```bash
+curl -fsSL https://example.com/install.sh | sh
+```
+
+This downloads an install script with `curl` and pipes it directly into the shell to execute. We will use exactly this pattern to install Entrez Direct below.
+
+::: {.callout-warning}
+Piping a script from the internet directly into your shell is convenient, but you are trusting the source. Only do this with scripts from well-known, reputable organisations (NCBI, Conda, Homebrew, etc.).
+:::
+
+---
+
+## Installing NCBI Entrez Direct
+
+**NCBI Entrez Direct** (EDirect) is a set of command-line tools for querying NCBI databases, including downloading sequences, searching PubMed, and retrieving metadata. We will use it in the next chapter to download a genome directly from the command line.
+
+### Step 1: Check if it is already installed {.unnumbered}
+```bash
+which efetch
+```
+
+If you get a path back (e.g. `~/edirect/efetch`), it is already installed — skip to Step 3.
+
+### Step 2: Run the installer {.unnumbered}
+```bash
+sh -c "$(curl -fsSL https://ftp.ncbi.nlm.nih.gov/entrez/entrezdirect/install-edirect.sh)"
+```
+
+Breaking this down:
+
+| Part | Meaning |
+|------|---------|
+| `curl -fsSL <url>` | Download the installer script silently |
+| `-f` | Fail silently on server errors |
+| `-s` | Silent mode (no progress bar) |
+| `-S` | Show errors even in silent mode |
+| `-L` | Follow redirects |
+| `sh -c "$(…)"` | Execute the downloaded script in the current shell |
+
+When prompted, allow the installer to add `edirect` to your PATH.
+
+### Step 3: Reload your PATH {.unnumbered}
+
+After installation, close and reopen your terminal, **or** run:
+```bash
+export PATH="${HOME}/edirect:${PATH}"
+```
+
+This temporarily adds the `edirect` directory to your PATH for the current session. The installer should have added it permanently to your shell configuration file (`.bashrc` or `.zshrc`) for future sessions.
+
+### Step 4: Verify the installation {.unnumbered}
+```bash
+which efetch
+efetch --help | head -n 5
+```
+
+You should see the path to `efetch` and the beginning of its help text.
+
+::: {.callout-note}
+**Windows / MobaXterm users:** the installer may not complete successfully. If `which efetch` returns nothing after running the installer, use the `curl` backup method in the next chapter, which will work on all systems.
+:::
+
+---
+
+::: {.callout-caution icon=false}
+## ✏️ Exercise 4.1
+
+Check whether the following programmes are installed on your system, and if so, what version they are:
+
+1. `curl`
+2. `wget`
+3. `efetch` (after installing)
+
+::: {.callout-note collapse=true icon=false}
+## Solution
+```bash
+which curl && curl --version | head -n 1
+which wget && wget --version | head -n 1
+which efetch && efetch --version
+```
+
+`curl` is present on virtually all systems. `wget` is common on Linux and available in MobaXterm, but not installed by default on macOS. `efetch` should be present if the installation above succeeded.
+:::
+:::
+
+::: {.callout-important icon=false}
+## 🚀 Bonus: for those who want more
+
+Look at what the Entrez Direct installer script actually does before running it:
+```bash
+curl -fsSL https://ftp.ncbi.nlm.nih.gov/entrez/entrezdirect/install-edirect.sh | less
+```
+
+Can you identify which directory it installs into, and which configuration file it modifies to update your PATH?
+:::
+
+---
+
+::: {.callout-tip icon=false}
+## 🔑 Key points
+
+- `which` checks whether a programme is on your PATH; `--version` confirms what is installed
+- System package managers (`apt`, `brew`) are the standard way to install software on Linux and macOS; MobaXterm uses `apt` without `sudo`
+- Some tools are installed by downloading and running a shell script — only do this from trusted sources
+- NCBI Entrez Direct provides `efetch` and other tools for querying NCBI databases from the command line
+
+:::

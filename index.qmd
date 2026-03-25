@@ -1,0 +1,74 @@
+# Preface {.unnumbered}
+
+This workshop is part of **LÍF659M** at the University of Iceland. It introduces the Unix shell, the command-line interface that underpins most bioinformatics work.
+
+The material is adapted from the [Data Carpentry: Shell Genomics](https://datacarpentry.org/shell-genomics/) lesson and Clara Jégousse's previous shell workshops.
+
+---
+
+## How this workshop works {.unnumbered}
+
+This workshop is designed for a mixed audience. Some of you have never opened a terminal before; others are already comfortable at the command line. Both are welcome, and the material is structured to accommodate everyone.
+
+The guided session covers **Chapters 1 to 4**. We will work through these together, at a pace that ensures everyone can follow along. Each chapter contains **🚀 Bonus** callouts with extra challenges — if you finish a section early, these will keep you busy while others catch up.
+
+**Chapters 5 and 6** cover fetching and exploring real genomic data. If you are comfortable with the command line, you are encouraged to work through these on your own during the session. For everyone else, they are self-directed follow-up material. The instructor will be available online in the weeks following the session for any questions.
+
+::: {.callout-tip}
+Getting stuck is normal and expected. If something does not work, raise your hand — there is a good chance your neighbour has the same problem, and troubleshooting together is part of learning.
+:::
+
+---
+
+## Learning objectives {.unnumbered}
+
+By the end of the guided session (Chapters 1-4) you will be able to:
+
+- Open a terminal and navigate your file system using the command line
+- Create, copy, move and inspect files and directories
+- Check whether a programme is installed and install one from the command line
+
+If you work through Chapters 5 and 6, you will additionally be able to:
+
+- Query NCBI databases and download a genome sequence from the command line
+- Perform basic exploration of a FASTA file using `grep`, `wc` and pipes
+
+---
+
+## Schedule {.unnumbered}
+
+The guided session runs for **1 hour 30 minutes** and covers Chapters 1-4. Chapters 5 and 6 are available for those who move ahead during class or wish to continue independently afterwards.
+
+| Time | Chapter | Topic |
+|------|---------|-------|
+| 00:00 | Setup | Opening a terminal on your OS |
+| 00:10 | 1. Introducing the shell | What is the shell and why use it? |
+| 00:25 | 2. Navigating the file system | Moving around directories |
+| 00:50 | 3. Working with files | Creating, copying and inspecting files |
+| 01:10 | 4. Installing programmes | `which`, package managers, Entrez Direct |
+| 01:30 | Wrap-up | Key points and next steps |
+| *self-directed* | 5. Fetching sequence data | NCBI databases, taxonomy, downloading a genome |
+| *self-directed* | 6. Exploring sequence data | `grep`, `wc`, pipes |
+
+---
+
+## Setup {.unnumbered}
+
+Please complete the setup steps **before** the session — this means only opening your terminal. Everything else will be installed during class.
+
+### MacOS {.unnumbered}
+
+The Terminal application is already on your Mac. Open **Finder → Applications → Utilities → Terminal**, or search for *Terminal* in Spotlight (`⌘ Space`).
+
+### Linux (Ubuntu) {.unnumbered}
+
+Open the Terminal from your applications menu, or press `Ctrl + Alt + T`.
+
+### Windows {.unnumbered}
+
+Download and install [MobaXterm Home Edition](https://mobaxterm.mobatek.net/download.html) (free). Once installed:
+
+1. Open MobaXterm
+2. Click **Start local terminal**
+
+MobaXterm provides a bash shell on Windows and will be used throughout this workshop.

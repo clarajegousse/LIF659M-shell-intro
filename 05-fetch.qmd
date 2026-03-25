@@ -1,0 +1,286 @@
+# Fetching sequence data
+
+::: {.callout-note icon=false}
+## ⏳ Time
+- Teaching: 15 min
+- Exercises: 10 min
+:::
+
+::: {.callout-note icon=false}
+## 🤔 Questions
+- What databases does NCBI maintain, and how do I navigate them?
+- How do I find the taxonomy identifier for an organism?
+- How do I download a genome sequence from the command line?
+:::
+
+::: {.callout-note icon=false}
+## 🎯 Objectives
+- Describe the major NCBI databases and how they relate to each other
+- Use `esearch` and `efetch` to query the taxonomy and nucleotide databases
+- Retrieve a genome in FASTA format and verify the download
+- Use `curl` as a backup download method
+:::
+
+---
+
+## The NCBI databases
+
+The National Center for Biotechnology Information (NCBI) maintains a large family of interconnected biological databases. They can all be queried from the command line using the Entrez Direct tools we installed in the previous chapter [@kans2013].
+
+The most commonly used databases in genomics work are:
+
+| Database | Contents | `esearch -db` name |
+|----------|----------|--------------------|
+| Nucleotide | DNA and RNA sequences (GenBank, RefSeq) | `nucleotide` |
+| Protein | Protein sequences | `protein` |
+| Genome | Whole genome assemblies | `genome` |
+| Taxonomy | Organism classification and IDs | `taxonomy` |
+| SRA | Raw sequencing reads | `sra` |
+| PubMed | Biomedical literature | `pubmed` |
+| Assembly | Genome assembly records | `assembly` |
+
+These databases are cross-linked: a genome record links to its taxonomy entry, its raw reads in SRA, and the papers that described it.
+
+::: {.callout-tip}
+You can list all available databases with:
+```bash
+einfo -dbs
+```
+:::
+
+---
+
+## Finding an organism's taxonomy ID
+
+Every organism in NCBI has a unique **taxonomy identifier** (TaxID). This number is stable, species-specific, and used across all NCBI databases to unambiguously refer to an organism.
+
+Let's try to find the TaxID for *Pelagibacter ubique*:
+
+```bash
+esearch -db taxonomy -query "Pelagibacter ubique"
+```
+
+You should see something like:
+
+```
+<ENTREZ_DIRECT>
+  <Db>taxonomy</Db>
+  <Count>0</Count>
+  ...
+</ENTREZ_DIRECT>
+```
+
+A count of **0**. The command ran without error, but found nothing. This is an important lesson: **the absence of an error message does not mean the result is correct.** Always check whether the output actually makes sense.
+
+::: {.callout-warning}
+Command-line tools fail silently far more often than they fail loudly. A zero result, an empty file, or an unexpectedly small file are all signs that something may have gone wrong. Always sanity-check your output.
+:::
+
+In this case, the issue is the *Candidatus* prefix. EDirect's taxonomy search does not index *Candidatus* names reliably, so the full species name returns nothing.
+
+### Cross-checking with the web portal {.unnumbered}
+
+This is exactly the kind of situation where stepping away from the command line and using the NCBI web portal is the right move. Open your browser and go to:
+
+**[https://www.ncbi.nlm.nih.gov/taxonomy](https://www.ncbi.nlm.nih.gov/taxonomy)**
+
+Search for *Pelagibacter ubique* there. You will find the entry for *Candidatus Pelagibacter ubique* HTCC1062 with TaxID **335992**.
+
+::: {.callout-note}
+The *Candidatus* designation indicates a microorganism that has been characterised genetically but could not be cultivated in pure culture under standard laboratory conditions. *P. ubique* was finally brought into pure culture in 2007, after years of failed attempts. Using a TaxID rather than the species name sidesteps naming convention issues entirely, which is why TaxIDs are preferred in scripted workflows.
+:::
+
+### Searching by genus {.unnumbered}
+
+Back on the command line, searching at genus level works:
+
+```bash
+esearch -db taxonomy -query "Pelagibacter" \
+  | efetch -format docsum \
+  | xtract -pattern DocumentSummary -element TaxId ScientificName Rank
+```
+
+This confirms the TaxID **335992** we found on the web portal. From here, we use the TaxID for everything downstream.
+
+---
+
+## How many genomes are available?
+
+Now that we have the TaxID, let's ask NCBI how many nucleotide sequences exist for this organism. We use `txid335992[ORGN]` rather than the species name, which avoids the *Candidatus* indexing problem entirely:
+
+```bash
+esearch -db nucleotide -query "txid335992[ORGN]" | grep "<Count>"
+```
+
+We can narrow down to complete genomes using the `[TITL]` field tag:
+
+```bash
+esearch -db nucleotide -query "txid335992[ORGN] AND complete genome[TITL]" \
+  | grep "<Count>"
+```
+
+The `[ORGN]` and `[TITL]` in brackets are **search field tags** that restrict where the query term is matched -- the same syntax used in the NCBI web search interface, just expressed on the command line.
+
+::: {.callout-important icon=false}
+## 🚀 Bonus: for those who want more
+
+Try querying for other SAR11 relatives. How many complete genomes exist for the broader SAR11 clade?
+
+```bash
+esearch -db nucleotide -query "SAR11[ORGN] AND complete genome[TITL]" \
+  | grep "<Count>"
+```
+
+You can also use the TaxID directly with `txid` to include all strains:
+
+```bash
+esearch -db nucleotide -query "txid335992[ORGN]" | grep "<Count>"
+```
+:::
+
+---
+
+## The organism: *Pelagibacter ubique* HTCC1062
+
+We will work with strain **HTCC1062**, the first SAR11 isolate ever brought into pure culture. Its genome (accession `NC_007205.1`) is small at ~1.3 Mb and extraordinarily well-studied.
+
+::: {.callout-note}
+**Genome streamlining** is an evolutionary strategy common in bacteria living in stable, nutrient-poor environments like the open ocean. *P. ubique* has one of the smallest genomes of any free-living organism, with almost no non-coding DNA and very few regulatory elements every gene kept is there for a reason.
+:::
+
+---
+
+## The FASTA format (What does sequence data look like?)
+
+A FASTA file is one of the simplest and most widely used formats in bioinformatics. Each sequence entry has two parts:
+
+1. A **header line** starting with `>`, containing the sequence identifier and optional description
+2. One or more lines of **sequence data** (60-70 characters per line by convention)
+
+```
+>NC_007205.1 Candidatus Pelagibacter ubique HTCC1062, complete sequence
+AGTTTTCGAATTTGAATTTTAAGAAGTTTCGAATTTGAATTTGAAGAAATTTCGAATTT
+GAATTTGAAAAAGTTTCGAATTTGAATTTGAAGAAATTTCGAATTTGAATTTGAAAAAG
+...
+```
+
+A FASTA file can hold a single sequence (as here) or many sequences a *multi-FASTA* file which is common for collections of genes or protein sequences.
+
+---
+
+## Fetching (Downloading from NCBI)
+
+Let's move into our `data` directory:
+
+```bash
+cd ~/training/data
+```
+
+### Method 1: `efetch` {.unnumbered}
+
+If Entrez Direct is installed (see [Chapter 4](04-install.qmd)), fetch the genome directly:
+
+```bash
+efetch -db nucleotide -id NC_007205.1 -format fasta > pelagibacter_ubique.fasta
+```
+
+| Part | Meaning |
+|------|---------|
+| `efetch` | The NCBI fetch tool |
+| `-db nucleotide` | The nucleotide database |
+| `-id NC_007205.1` | The accession number |
+| `-format fasta` | Output in FASTA format |
+| `> pelagibacter_ubique.fasta` | Redirect output to a file |
+
+::: {.callout-note}
+The `>` symbol **redirects** command output into a file instead of printing to the screen. We explore this in depth in [Chapter 6](06-explore.qmd).
+:::
+
+### Method 2: `curl` (backup for all systems) {.unnumbered}
+
+If `efetch` is not available, download directly from GitHub:
+
+```bash
+curl -L -o pelagibacter_ubique.fasta \
+  https://raw.githubusercontent.com/clarajegousse/training-data/main/pelagibacter_ubique.fasta
+```
+
+| Flag | Meaning |
+|------|---------|
+| `-L` | Follow redirects |
+| `-o pelagibacter_ubique.fasta` | Save to this filename |
+
+::: {.callout-tip}
+`wget` works identically for simple downloads and is common on Linux and in MobaXterm:
+```bash
+wget -O pelagibacter_ubique.fasta \
+  https://raw.githubusercontent.com/clarajegousse/training-data/main/pelagibacter_ubique.fasta
+```
+:::
+
+---
+
+## Verifying (Did it work?)
+
+Always check the file exists and has a sensible size:
+
+```bash
+ls -lh pelagibacter_ubique.fasta
+```
+
+You should see around **1.4 MB**. A file of 0 bytes or a few hundred bytes means something went wrong.
+
+Peek at the beginning:
+
+```bash
+head pelagibacter_ubique.fasta
+```
+
+You should see a header starting with `>NC_007205.1` followed by lines of `A`, `T`, `G`, `C`.
+
+---
+
+::: {.callout-caution icon=false}
+## ✏️ Exercise 5.1
+
+1. Search NCBI taxonomy to confirm the TaxID of *Pelagibacter ubique*
+2. Check how many complete genome sequences exist for this organism
+3. Download the genome using either `efetch` or `curl`
+4. Verify the download with `ls -lh` and `head -n 5`
+
+::: {.callout-note collapse=true icon=false}
+## Solution
+```bash
+# 1. Taxonomy search (genus level, then cross-check on web portal)
+esearch -db taxonomy -query "Pelagibacter" \
+  | efetch -format docsum \
+  | xtract -pattern DocumentSummary -element TaxId ScientificName Rank
+
+# 2. Genome count using TaxID
+esearch -db nucleotide \
+  -query "txid335992[ORGN] AND complete genome[TITL]" \
+  | grep "<Count>"
+
+# 3. Download
+efetch -db nucleotide -id NC_007205.1 -format fasta > pelagibacter_ubique.fasta
+# or:
+curl -L -o pelagibacter_ubique.fasta \
+  https://raw.githubusercontent.com/clarajegousse/training-data/main/pelagibacter_ubique.fasta
+
+# 4. Verify
+ls -lh pelagibacter_ubique.fasta
+head -n 5 pelagibacter_ubique.fasta
+```
+:::
+:::
+
+---
+
+::: {.callout-tip icon=false}
+## 🔑 Key points
+- NCBI maintains interconnected databases for sequences, genomes, taxonomy, literature, and raw reads
+- Every organism has a unique TaxID; `esearch -db taxonomy` retrieves it
+- `esearch` counts and filters records; `efetch` downloads them
+- FASTA is a simple two-part format: a `>` header line followed by sequence data
+- Always verify downloads with `ls -lh` and `head`
+:::

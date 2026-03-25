@@ -1,0 +1,542 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "LÍF659M-shell-intro",
+    "section": "",
+    "text": "Preface\nThis workshop is part of LÍF659M at the University of Iceland. It introduces the Unix shell — the command-line interface that underpins most bioinformatics work.\nThe material is adapted from the Data Carpentry: Shell Genomics lesson and Clara Jégousse’s previous shell workshops.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#learning-objectives",
+    "href": "index.html#learning-objectives",
+    "title": "LÍF659M-shell-intro",
+    "section": "Learning objectives",
+    "text": "Learning objectives\nBy the end of this session you will be able to:\n\nOpen a terminal and navigate your file system using the command line\nCreate, copy, move and inspect files and directories\nInstall a command-line tool\nDownload a biological sequence file from NCBI\nPerform basic exploration of a FASTA file using grep, wc and pipes",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#schedule",
+    "href": "index.html#schedule",
+    "title": "LÍF659M-shell-intro",
+    "section": "Schedule",
+    "text": "Schedule\n\n\n\n\n\n\n\n\nTime\nChapter\nTopic\n\n\n\n\n00:00\nSetup\nOpening a terminal on your OS\n\n\n00:10\n1. Introducing the shell\nWhat is the shell and why use it?\n\n\n00:25\n2. Navigating the file system\nMoving around directories\n\n\n00:50\n3. Working with files\nCreating, copying and inspecting files\n\n\n01:05\n4. Installing programmes\nwhich, package managers, Entrez Direct\n\n\n01:15\n5. Fetching sequence data\nDownloading a genome from NCBI\n\n\n01:25\n6. Exploring sequence data\ngrep, wc, pipes\n\n\n01:30\nWrap-up\nKey points and next steps",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#setup",
+    "href": "index.html#setup",
+    "title": "LÍF659M-shell-intro",
+    "section": "Setup",
+    "text": "Setup\nPlease complete the setup steps before the session — this means only opening your terminal. Everything else will be installed during class.\n\nMacOS\nThe Terminal application is already on your Mac. Open Finder → Applications → Utilities → Terminal, or search for Terminal in Spotlight (⌘ Space).\n\n\nLinux (Ubuntu)\nOpen the Terminal from your applications menu, or press Ctrl + Alt + T.\n\n\nWindows\nDownload and install MobaXterm Home Edition (free). Once installed:\n\nOpen MobaXterm\nClick Start local terminal\n\nMobaXterm provides a bash shell on Windows and will be used throughout this workshop.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "01-intro.html",
+    "href": "01-intro.html",
+    "title": "1  Introducing the shell",
+    "section": "",
+    "text": "1.1 What is the shell?\nA shell is a program that lets you interact with your computer by typing commands. Instead of clicking on icons and menus — a graphical user interface, or GUI — you type instructions and the computer responds with text output.\nThe shell we will use is called bash (Bourne Again SHell). It is the default on most Linux systems and on older Macs. On newer Macs the default is zsh, which is nearly identical for our purposes.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introducing the shell</span>"
+    ]
+  },
+  {
+    "objectID": "01-intro.html#what-is-the-shell",
+    "href": "01-intro.html#what-is-the-shell",
+    "title": "1  Introducing the shell",
+    "section": "",
+    "text": "Why bother?\nYou might wonder why anyone would use a text interface when GUIs exist. Here are three reasons that matter in bioinformatics:\n\nMost bioinformatics tools have no GUI. Programs like BLAST, HMMER, Bowtie, and Samtools are run exclusively from the command line.\nAutomation. When you need to process hundreds of files, a few lines of shell code replaces hours of pointing and clicking.\nRemote computing. High-performance computing clusters — where large genomic analyses actually run — are only accessible via the shell.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introducing the shell</span>"
+    ]
+  },
+  {
+    "objectID": "01-intro.html#opening-the-terminal",
+    "href": "01-intro.html#opening-the-terminal",
+    "title": "1  Introducing the shell",
+    "section": "1.2 Opening the terminal",
+    "text": "1.2 Opening the terminal\nDepending on your operating system, you opened the terminal following the setup instructions in the Preface. You should see a window with some text and a blinking cursor. That text is the prompt.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introducing the shell</span>"
+    ]
+  },
+  {
+    "objectID": "01-intro.html#the-prompt",
+    "href": "01-intro.html#the-prompt",
+    "title": "1  Introducing the shell",
+    "section": "1.3 The prompt",
+    "text": "1.3 The prompt\nThe prompt tells you the shell is waiting for input. It typically looks something like this:\nusername@computer:~$\nThe exact appearance varies, but what matters is the $ (or % on zsh) at the end — this is the signal that the shell is ready. Do not type the $ when following examples in this workshop. It is shown only to indicate a command you should type.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introducing the shell</span>"
+    ]
+  },
+  {
+    "objectID": "01-intro.html#your-first-commands",
+    "href": "01-intro.html#your-first-commands",
+    "title": "1  Introducing the shell",
+    "section": "1.4 Your first commands",
+    "text": "1.4 Your first commands\nLet’s run a few simple commands to get comfortable.\n\nIdentifying yourself (Who am I?)\nThe command whoami prints your username:\nwhoami\n\n\nChecking the time (What time is it?)\nThe command date prints the current date and time:\ndate\n\n\nClearing the screen (Clean slate)\nThe command clear clears the terminal screen. Your previous output is not lost — you can still scroll up to see it:\nclear\n\n\n\n\n\n\nTip\n\n\n\nThe keyboard shortcut Ctrl + L does the same thing as clear.\n\n\n\n\nPrinting text (Talking to yourself)\nThe command echo prints whatever you give it back to the screen:\necho \"Hello, world\"\nYou will see echo again when we write scripts.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introducing the shell</span>"
+    ]
+  },
+  {
+    "objectID": "01-intro.html#the-anatomy-of-a-command",
+    "href": "01-intro.html#the-anatomy-of-a-command",
+    "title": "1  Introducing the shell",
+    "section": "1.5 The anatomy of a command",
+    "text": "1.5 The anatomy of a command\nMost shell commands follow this pattern:\ncommand [options] [arguments]\n\ncommand — the programme to run (e.g. ls)\noptions (or flags) — modify the behaviour, usually starting with - (e.g. -l)\narguments — the target the command acts on (e.g. a filename or directory)\n\nWe will see this pattern in action throughout the workshop.\n\n\n\n\n\n\n\nCaution✏️ Exercise 1.1\n\n\n\nRun echo with your own name:\necho \"Hello, my name is Clara\"\nNow try running echo without any argument — just type echo and press Enter. What happens?\n\n\n\n\n\n\nNoteSolution\n\n\n\n\n\necho with no argument prints a blank line. It still runs — it just has nothing to print. This illustrates that commands can often be run without arguments, though the result may not be very useful.\n\n\n\n\n\n\n\n\n\n\n\nImportant🚀 Bonus — for those who want more\n\n\n\nFind out what version of bash (or zsh) you are running:\necho $BASH_VERSION\n# or on newer Macs:\necho $ZSH_VERSION\nThe $ before a word tells the shell to treat it as a variable — a named value stored in memory. $BASH_VERSION is a variable the shell sets automatically when it starts.\n\n\n\n\n\n\n\n\n\nTip🔑 Key points\n\n\n\n\nThe shell is a text-based interface for interacting with your computer\nThe prompt ($) signals the shell is ready for input\nCommands follow the pattern: command [options] [arguments]\nwhoami, date, clear, and echo are simple starter commands",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introducing the shell</span>"
+    ]
+  },
+  {
+    "objectID": "02-navigation.html",
+    "href": "02-navigation.html",
+    "title": "2  Navigating the file system",
+    "section": "",
+    "text": "2.1 The file system\nFiles and directories on a Unix system are arranged in a hierarchy, like an upside-down tree. The base of the tree is called the root directory and is written as /. Every file and directory on the system lives somewhere beneath it.\nWhen you open a terminal, you start in your home directory — typically /home/username on Linux or /Users/username on a Mac. This is your personal space on the system.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Navigating the file system</span>"
+    ]
+  },
+  {
+    "objectID": "02-navigation.html#the-file-system",
+    "href": "02-navigation.html#the-file-system",
+    "title": "2  Navigating the file system",
+    "section": "",
+    "text": "/\n├── home/\n│   └── username/\n│       ├── Documents/\n│       └── Downloads/\n├── usr/\n└── tmp/",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Navigating the file system</span>"
+    ]
+  },
+  {
+    "objectID": "02-navigation.html#where-am-i-pwd",
+    "href": "02-navigation.html#where-am-i-pwd",
+    "title": "2  Navigating the file system",
+    "section": "2.2 Where am I? — pwd",
+    "text": "2.2 Where am I? — pwd\nThe command pwd stands for print working directory. It tells you exactly where you are in the file system:\npwd\nYour output will look something like:\n/home/username\nor on a Mac:\n/Users/username",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Navigating the file system</span>"
+    ]
+  },
+  {
+    "objectID": "02-navigation.html#what-is-here-ls",
+    "href": "02-navigation.html#what-is-here-ls",
+    "title": "2  Navigating the file system",
+    "section": "2.3 What is here? — ls",
+    "text": "2.3 What is here? — ls\nThe command ls lists the contents of your current directory:\nls\nYou can make the output more informative with flags:\n\n\n\nFlag\nEffect\n\n\n\n\nls -F\nAdds / after directories, * after executables\n\n\nls -l\nLong format — shows permissions, size, date\n\n\nls -a\nShows hidden files (those starting with .)\n\n\nls -lh\nLong format with human-readable file sizes\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nYou can combine flags: ls -lF or ls -lah are both valid.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Navigating the file system</span>"
+    ]
+  },
+  {
+    "objectID": "02-navigation.html#creating-a-directory-mkdir",
+    "href": "02-navigation.html#creating-a-directory-mkdir",
+    "title": "2  Navigating the file system",
+    "section": "2.4 Creating a directory — mkdir",
+    "text": "2.4 Creating a directory — mkdir\nLet’s create a dedicated working directory for this session:\nmkdir training\nCheck it was created:\nls\n\n\n\n\n\n\nNote\n\n\n\nDirectory names should not contain spaces. Use underscores (_) or hyphens (-) instead. For example: my_data or my-data.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Navigating the file system</span>"
+    ]
+  },
+  {
+    "objectID": "02-navigation.html#moving-around-cd",
+    "href": "02-navigation.html#moving-around-cd",
+    "title": "2  Navigating the file system",
+    "section": "2.5 Moving around — cd",
+    "text": "2.5 Moving around — cd\nThe command cd stands for change directory. Let’s move into the directory we just created:\ncd training\nConfirm you have moved:\npwd\n\nGoing up\nTwo dots (..) refer to the directory above your current location (the parent directory). To go up one level:\ncd ..\n\n\nGoing home\nA tilde (~) always refers to your home directory. From anywhere on the system:\ncd ~\nor simply:\ncd\nBoth take you straight home.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Navigating the file system</span>"
+    ]
+  },
+  {
+    "objectID": "02-navigation.html#absolute-vs.-relative-paths",
+    "href": "02-navigation.html#absolute-vs.-relative-paths",
+    "title": "2  Navigating the file system",
+    "section": "2.6 Absolute vs. relative paths",
+    "text": "2.6 Absolute vs. relative paths\nA path is the address of a file or directory in the file system.\n\nAn absolute path starts from the root (/) and works from anywhere on the system:\ncd /home/username/training\nA relative path is given relative to where you currently are:\ncd training\n\n\n\n\n\n\n\nTip\n\n\n\nUse absolute paths in scripts — they always work regardless of where the script is called from. Use relative paths for quick interactive navigation.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Navigating the file system</span>"
+    ]
+  },
+  {
+    "objectID": "02-navigation.html#tab-completion",
+    "href": "02-navigation.html#tab-completion",
+    "title": "2  Navigating the file system",
+    "section": "2.7 Tab completion",
+    "text": "2.7 Tab completion\nTyping long directory or file names is error-prone. Instead, type the first few characters and press Tab — the shell will autocomplete:\ncd trai&lt;Tab&gt;\nbecomes:\ncd training\nIf there are multiple matches, press Tab twice to see all options.\n\n\n\n\n\n\nTip\n\n\n\nTab completion is one of the most valuable habits you can build. Use it constantly.\n\n\n\n\n\n\n\n\n\nCaution✏️ Exercise 2.1\n\n\n\n\nNavigate into your training directory\nUse pwd to confirm where you are\nGo back to your home directory using ..\nGo back to training using ~ notation (i.e. cd ~/training)\n\n\n\n\n\n\n\nNoteSolution\n\n\n\n\n\ncd training\npwd\ncd ..\ncd ~/training\n\n\n\n\n\n\n\n\n\n\n\nCaution✏️ Exercise 2.2\n\n\n\nInside training, create two new directories called data and results:\nmkdir data results\nList the contents to confirm both were created. Then use ls -F — what does the trailing / tell you?\n\n\n\n\n\n\nNoteSolution\n\n\n\n\n\nls\nls -F\nThe trailing / indicates that data and results are directories, not files.\n\n\n\n\n\n\n\n\n\n\n\nImportant🚀 Bonus — for those who want more\n\n\n\nThe tree command prints a visual representation of the directory structure. Try:\ntree ~/training\nIf tree is not installed, you can install it with sudo apt install tree (Ubuntu) or brew install tree (Mac with Homebrew). On MobaXterm it is usually available by default.\n\n\n\n\n\n\n\n\n\nTip🔑 Key points\n\n\n\n\nThe Unix file system is a hierarchy rooted at /\npwd prints your current location; ls lists directory contents; cd moves you around\n.. refers to the parent directory; ~ refers to your home directory\nTab completion reduces errors and saves time",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Navigating the file system</span>"
+    ]
+  },
+  {
+    "objectID": "03-files.html",
+    "href": "03-files.html",
+    "title": "3  Working with files",
+    "section": "",
+    "text": "3.1 Touching (Creating an empty file)\nThe command touch creates an empty file — or updates the timestamp of an existing file without changing its contents:",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Working with files</span>"
+    ]
+  },
+  {
+    "objectID": "03-files.html#creating-a-file-touch",
+    "href": "03-files.html#creating-a-file-touch",
+    "title": "3  Working with files",
+    "section": "",
+    "text": "cd ~/training\ntouch notes.txt\nls\n\n\n\n\n\n\nNote\n\n\n\ntouch is also used to update the timestamp of an existing file without changing its contents.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Working with files</span>"
+    ]
+  },
+  {
+    "objectID": "03-files.html#copying-files-cp",
+    "href": "03-files.html#copying-files-cp",
+    "title": "3  Working with files",
+    "section": "3.2 Copying files — cp",
+    "text": "3.2 Copying files — cp\ncp copies a file. The syntax is:\ncp source destination\nFor example:\ncp notes.txt notes_backup.txt\nls\nTo copy a whole directory (and everything inside it), use the -r flag (recursive):\ncp -r data data_backup",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Working with files</span>"
+    ]
+  },
+  {
+    "objectID": "03-files.html#moving-and-renaming-mv",
+    "href": "03-files.html#moving-and-renaming-mv",
+    "title": "3  Working with files",
+    "section": "3.3 Moving and renaming — mv",
+    "text": "3.3 Moving and renaming — mv\nmv moves a file — but it also serves as the way to rename files in Unix:\n# rename\nmv notes.txt readme.txt\n\n# move to a subdirectory\nmv readme.txt data/readme.txt\n\n\n\n\n\n\nWarning\n\n\n\nmv will silently overwrite the destination if it already exists. Double-check before moving.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Working with files</span>"
+    ]
+  },
+  {
+    "objectID": "03-files.html#deleting-files-rm",
+    "href": "03-files.html#deleting-files-rm",
+    "title": "3  Working with files",
+    "section": "3.4 Deleting files — rm",
+    "text": "3.4 Deleting files — rm\nrm removes files permanently. There is no recycle bin on the Unix command line.\nrm notes_backup.txt\nTo remove a directory and all its contents:\nrm -r data_backup\n\n\n\n\n\n\nWarning\n\n\n\nBe careful with rm -r. There is no undo. A common safety habit is to use rm -ri, which asks for confirmation before deleting each file.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Working with files</span>"
+    ]
+  },
+  {
+    "objectID": "03-files.html#viewing-file-contents",
+    "href": "03-files.html#viewing-file-contents",
+    "title": "3  Working with files",
+    "section": "3.5 Viewing file contents",
+    "text": "3.5 Viewing file contents\n\ncat — print the whole file\ncat data/readme.txt\ncat prints the entire file to the terminal at once. This is fine for small files, but unwieldy for large ones.\n\n\nhead — first lines\nhead shows the first 10 lines by default:\nhead data/readme.txt\nUse -n to specify a different number:\nhead -n 5 data/readme.txt\n\n\ntail — last lines\ntail shows the last 10 lines:\ntail data/readme.txt\n\n\nless — scroll through a file\nFor large files, less is the tool to use. It opens the file in a scrollable viewer:\nless data/readme.txt\n\n\n\nKey\nAction\n\n\n\n\nSpace\nPage down\n\n\nb\nPage up\n\n\n↓ / ↑\nLine by line\n\n\n/pattern\nSearch for pattern\n\n\nn\nNext search result\n\n\nq\nQuit\n\n\n\n\n\n\n\n\n\n\nCaution✏️ Exercise 3.1\n\n\n\n\nNavigate to ~/training\nCreate a file called experiment.txt inside the data/ directory\nMake a copy of it called experiment_v2.txt in the same directory\nRename experiment.txt to experiment_v1.txt\nList the contents of data/ to confirm\n\n\n\n\n\n\n\nNoteSolution\n\n\n\n\n\ncd ~/training\ntouch data/experiment.txt\ncp data/experiment.txt data/experiment_v2.txt\nmv data/experiment.txt data/experiment_v1.txt\nls data/\n\n\n\n\n\n\n\n\n\n\n\nImportant🚀 Bonus — for those who want more\n\n\n\nThe wc command counts words, lines and characters in a file:\nwc data/readme.txt\nUse wc -l to count only lines. We will use this in Chapter 5 to count sequences in a FASTA file.\n\n\n\n\n\n\n\n\n\nTip🔑 Key points\n\n\n\n\ntouch creates an empty file; cp copies; mv moves or renames; rm deletes permanently\ncat prints a whole file; head and tail show the beginning and end; less lets you scroll\nAlways double-check before using rm — there is no undo",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Working with files</span>"
+    ]
+  },
+  {
+    "objectID": "04-fetch.html",
+    "href": "04-fetch.html",
+    "title": "4  Fetching sequence data",
+    "section": "",
+    "text": "4.1 The organism: Pelagibacter ubique HTCC1062\nWe are going to work with the genome of Pelagibacter ubique strain HTCC1062 — arguably the most ecologically important bacterium on the planet.\nPelagibacter ubique belongs to the SAR11 clade, a group of free-living marine alphaproteobacteria that may account for 25–50% of all microbial cells in the ocean’s surface waters. Its genome (accession NC_007205.1) is small (~1.3 Mb), streamlined, and extraordinarily well-studied.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Fetching sequence data</span>"
+    ]
+  },
+  {
+    "objectID": "04-fetch.html#the-organism-pelagibacter-ubique-htcc1062",
+    "href": "04-fetch.html#the-organism-pelagibacter-ubique-htcc1062",
+    "title": "4  Fetching sequence data",
+    "section": "",
+    "text": "Note\n\n\n\nGenome streamlining is an evolutionary strategy in nutrient-poor environments: P. ubique has one of the smallest genomes of any free-living organism, with almost no non-coding DNA and very few regulatory elements.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Fetching sequence data</span>"
+    ]
+  },
+  {
+    "objectID": "04-fetch.html#the-fasta-format",
+    "href": "04-fetch.html#the-fasta-format",
+    "title": "4  Fetching sequence data",
+    "section": "4.2 The FASTA format",
+    "text": "4.2 The FASTA format\nA FASTA file is one of the simplest and most widely used formats in bioinformatics. Each sequence entry has two parts:\n\nA header line starting with &gt;, containing the sequence identifier and optional description\nOne or more lines of sequence data\n\nExample:\n&gt;NC_007205.1 Candidatus Pelagibacter ubique HTCC1062, complete sequence\nAGTTTTCGAATTTGAATTTTAAGAAGTTTCGAATTTGAATTTGAAGAAATTTCGAATTT\nGAATTTGAAAAAGTTTCGAATTTGAATTTGAAGAAATTTCGAATTTGAATTTGAAAAAG\n...\nFASTA files can contain a single sequence (as here) or many sequences (a multi-FASTA file), which is common for collections of genes or proteins.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Fetching sequence data</span>"
+    ]
+  },
+  {
+    "objectID": "04-fetch.html#method-1-efetch-ncbi-entrez-direct",
+    "href": "04-fetch.html#method-1-efetch-ncbi-entrez-direct",
+    "title": "4  Fetching sequence data",
+    "section": "4.3 Method 1 — efetch (NCBI Entrez Direct)",
+    "text": "4.3 Method 1 — efetch (NCBI Entrez Direct)\nIf you installed Entrez Direct during setup, you can fetch the genome directly from NCBI.\nFirst, move into your data directory:\ncd ~/training/data\nThen fetch the genome:\nefetch -db nucleotide -id NC_007205.1 -format fasta &gt; pelagibacter_ubique.fasta\nBreaking this command down:\n\n\n\nPart\nMeaning\n\n\n\n\nefetch\nThe NCBI fetch tool\n\n\n-db nucleotide\nSearch the nucleotide database\n\n\n-id NC_007205.1\nThe accession number we want\n\n\n-format fasta\nReturn the sequence in FASTA format\n\n\n&gt; pelagibacter_ubique.fasta\nRedirect the output into a file\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nThe &gt; symbol redirects the output of a command into a file instead of printing it to the screen. We will explore redirection more in Chapter 5.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Fetching sequence data</span>"
+    ]
+  },
+  {
+    "objectID": "04-fetch.html#method-2-curl-backup",
+    "href": "04-fetch.html#method-2-curl-backup",
+    "title": "4  Fetching sequence data",
+    "section": "4.4 Method 2 — curl (backup)",
+    "text": "4.4 Method 2 — curl (backup)\nIf efetch is not available (e.g. on Windows with MobaXterm, or if the installation did not succeed), use curl to download the file directly:\ncd ~/training/data\ncurl -L -o pelagibacter_ubique.fasta \\\n  https://raw.githubusercontent.com/clarajegousse/training-data/main/pelagibacter_ubique.fasta\n\n\n\nFlag\nMeaning\n\n\n\n\n-L\nFollow redirects\n\n\n-o pelagibacter_ubique.fasta\nSave output to this filename\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nwget is an alternative to curl and works the same way for simple downloads:\nwget -O pelagibacter_ubique.fasta \\\n  https://raw.githubusercontent.com/clarajegousse/training-data/main/pelagibacter_ubique.fasta\nwget is available on most Linux systems and in MobaXterm. On a Mac, curl is the default.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Fetching sequence data</span>"
+    ]
+  },
+  {
+    "objectID": "04-fetch.html#verifying-the-download",
+    "href": "04-fetch.html#verifying-the-download",
+    "title": "4  Fetching sequence data",
+    "section": "4.5 Verifying the download",
+    "text": "4.5 Verifying the download\nAlways check that your file downloaded correctly:\nls -lh pelagibacter_ubique.fasta\nYou should see a file of around 1.4 MB. If the file is 0 bytes or a few hundred bytes, something went wrong.\nTake a quick look at the beginning of the file:\nhead pelagibacter_ubique.fasta\nYou should see a header line starting with &gt;NC_007205.1 followed by lines of sequence.\n\n\n\n\n\n\n\nCaution✏️ Exercise 4.1\n\n\n\n\nDownload the genome using either efetch or curl (whichever works on your system)\nConfirm the file size with ls -lh\nUse head to view the first 5 lines\nUse tail to view the last 5 lines — what do you notice about the end of the sequence?\n\n\n\n\n\n\n\nNoteSolution\n\n\n\n\n\n# Download (choose one method)\nefetch -db nucleotide -id NC_007205.1 -format fasta &gt; pelagibacter_ubique.fasta\n# or\ncurl -L -o pelagibacter_ubique.fasta \\\n  https://raw.githubusercontent.com/clarajegousse/training-data/main/pelagibacter_ubique.fasta\n\n# Check size\nls -lh pelagibacter_ubique.fasta\n\n# Inspect\nhead -n 5 pelagibacter_ubique.fasta\ntail -n 5 pelagibacter_ubique.fasta\nThe last few lines are just sequence — the FASTA format has no end marker. The genome sequence continues right to the last line of the file.\n\n\n\n\n\n\n\n\n\n\n\nImportant🚀 Bonus — for those who want more\n\n\n\nTry fetching the genome in a different format. GenBank format includes annotations (gene positions, product names, etc.):\nefetch -db nucleotide -id NC_007205.1 -format gb &gt; pelagibacter_ubique.gb\nhead -n 30 pelagibacter_ubique.gb\nHow does this compare to the FASTA file? What additional information does it contain?\n\n\n\n\n\n\n\n\n\nTip🔑 Key points\n\n\n\n\nFASTA is a simple two-part format: a &gt; header line followed by sequence data\nefetch retrieves sequences from NCBI databases directly from the command line\ncurl (or wget) downloads files from URLs — useful as a fallback\nAlways verify downloads with ls -lh and head",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Fetching sequence data</span>"
+    ]
+  },
+  {
+    "objectID": "05-explore.html",
+    "href": "05-explore.html",
+    "title": "5  Exploring sequence data",
+    "section": "",
+    "text": "5.1 Searching inside files — grep\ngrep (global regular expression print) searches a file line by line and prints every line that contains a given pattern.\nLet’s confirm our FASTA file has a header:\nThis prints every line containing &gt;. In a single-sequence FASTA file, there is only one such line.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Exploring sequence data</span>"
+    ]
+  },
+  {
+    "objectID": "05-explore.html#searching-inside-files-grep",
+    "href": "05-explore.html#searching-inside-files-grep",
+    "title": "5  Exploring sequence data",
+    "section": "",
+    "text": "grep \"&gt;\" pelagibacter_ubique.fasta\n\n\nUseful grep flags\n\n\n\nFlag\nEffect\n\n\n\n\n-c\nCount matching lines instead of printing them\n\n\n-i\nCase-insensitive matching\n\n\n-v\nInvert — print lines that do not match\n\n\n-n\nShow line numbers\n\n\n\nHow many header lines are in the file?\ngrep -c \"&gt;\" pelagibacter_ubique.fasta\nFor a single genome sequence the answer is 1. In a multi-FASTA file (e.g. all the genes of an organism), this tells you the number of sequences.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Exploring sequence data</span>"
+    ]
+  },
+  {
+    "objectID": "05-explore.html#counting-with-wc",
+    "href": "05-explore.html#counting-with-wc",
+    "title": "5  Exploring sequence data",
+    "section": "5.2 Counting with wc",
+    "text": "5.2 Counting with wc\nwc stands for word count but it counts lines, words and characters:\nwc pelagibacter_ubique.fasta\nOutput format: lines  words  characters  filename\nTo count only lines:\nwc -l pelagibacter_ubique.fasta\n\n\n\n\n\n\nNote\n\n\n\nEach line of sequence in a FASTA file is typically 60 or 70 characters long. If you subtract 1 (the header line) and multiply the remaining line count by the line length, you get an estimate of genome size — though the last line is usually shorter.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Exploring sequence data</span>"
+    ]
+  },
+  {
+    "objectID": "05-explore.html#chaining-commands-with-pipes",
+    "href": "05-explore.html#chaining-commands-with-pipes",
+    "title": "5  Exploring sequence data",
+    "section": "5.3 Chaining commands with pipes — |",
+    "text": "5.3 Chaining commands with pipes — |\nA pipe (|) takes the output of one command and passes it directly as input to the next, without creating an intermediate file.\nLet’s count the lines in the output of grep without saving to a file:\ngrep -v \"&gt;\" pelagibacter_ubique.fasta | wc -l\nThis: 1. grep -v \"&gt;\" — selects all lines that are not headers (i.e. just sequence lines) 2. | wc -l — counts those lines\nYou can chain as many commands as you need:\ngrep -v \"&gt;\" pelagibacter_ubique.fasta | wc -c\nThis counts the total number of characters in the sequence lines — a rough proxy for genome length in base pairs (note: it includes newline characters, so the true bp count is slightly lower).",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Exploring sequence data</span>"
+    ]
+  },
+  {
+    "objectID": "05-explore.html#redirecting-output",
+    "href": "05-explore.html#redirecting-output",
+    "title": "5  Exploring sequence data",
+    "section": "5.4 Redirecting output — >",
+    "text": "5.4 Redirecting output — &gt;\nYou have already used &gt; to save efetch output to a file. You can redirect the output of any command:\ngrep \"&gt;\" pelagibacter_ubique.fasta &gt; headers.txt\ncat headers.txt\nUse &gt;&gt; to append to an existing file rather than overwriting it:\necho \"Downloaded from NCBI: NC_007205.1\" &gt;&gt; headers.txt\ncat headers.txt\n\n\n\n\n\n\n\nCaution✏️ Exercise 5.1\n\n\n\n\nHow many sequence lines (non-header lines) are in pelagibacter_ubique.fasta?\nUse a pipe to count the total number of characters in the sequence (excluding the header). How does this compare to the expected genome size of ~1.3 Mb?\n\n\n\n\n\n\n\nNoteSolution\n\n\n\n\n\n# Count sequence lines\ngrep -v \"&gt;\" pelagibacter_ubique.fasta | wc -l\n\n# Count sequence characters\ngrep -v \"&gt;\" pelagibacter_ubique.fasta | wc -c\nThe character count will be slightly higher than 1,308,759 bp (the true genome size) because wc -c also counts the newline character (\\n) at the end of each line. The number of sequence lines multiplied by ~60 gives a good estimate.\n\n\n\n\n\n\n\n\n\n\n\nImportant🚀 Bonus — for those who want more\n\n\n\nSearch for the string ATG (the standard start codon) in the sequence:\ngrep -o \"ATG\" pelagibacter_ubique.fasta | wc -l\nThe -o flag prints only the matched part of each line (one match per line), so wc -l counts the total occurrences. How many start codons can you find?\nThen try searching for a specific motif — for example the sigma-70 promoter consensus TATAAT:\ngrep -c \"TATAAT\" pelagibacter_ubique.fasta\n\n\n\n\n\n\nNoteNote\n\n\n\n\n\nThis is a very naive search — it finds the string in any reading frame and on either strand. Real promoter prediction uses more sophisticated tools. But it shows the power of even simple shell commands for biological questions.\n\n\n\n\n\n\n\n\n\n\n\n\nTip🔑 Key points\n\n\n\n\ngrep searches for patterns in files; -c counts matches; -v inverts the search\nwc -l counts lines; wc -c counts characters\nThe pipe | passes output from one command directly into the next — no intermediate file needed\n&gt; redirects output to a file (overwrites); &gt;&gt; appends to an existing file",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Exploring sequence data</span>"
+    ]
+  },
+  {
+    "objectID": "conclusion.html",
+    "href": "conclusion.html",
+    "title": "6  Conclusion",
+    "section": "",
+    "text": "6.1 What we covered\nIn this session you have gone from opening a terminal for the first time to downloading and querying a real bacterial genome. Specifically, you can now:\nThese are the building blocks of almost everything done in command-line bioinformatics.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Conclusion</span>"
+    ]
+  },
+  {
+    "objectID": "conclusion.html#what-we-covered",
+    "href": "conclusion.html#what-we-covered",
+    "title": "6  Conclusion",
+    "section": "",
+    "text": "Navigate a Unix file system using pwd, ls, and cd\nCreate, copy, move and delete files and directories\nDownload sequences from NCBI using efetch or curl\nInspect biological files with head, tail, and less\nSearch for patterns with grep and count with wc\nChain commands together with the pipe |",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Conclusion</span>"
+    ]
+  },
+  {
+    "objectID": "conclusion.html#command-reference",
+    "href": "conclusion.html#command-reference",
+    "title": "6  Conclusion",
+    "section": "6.2 Command reference",
+    "text": "6.2 Command reference\n\n\n\nCommand\nWhat it does\n\n\n\n\npwd\nPrint working directory\n\n\nls\nList directory contents\n\n\ncd\nChange directory\n\n\nmkdir\nMake a new directory\n\n\ntouch\nCreate an empty file\n\n\ncp\nCopy a file or directory\n\n\nmv\nMove or rename a file\n\n\nrm\nDelete a file (-r for directories)\n\n\ncat\nPrint file contents\n\n\nhead\nShow first lines of a file\n\n\ntail\nShow last lines of a file\n\n\nless\nScroll through a file\n\n\nwc\nCount lines, words, characters\n\n\ngrep\nSearch for patterns in files\n\n\necho\nPrint text to the terminal\n\n\nman\nOpen the manual for a command\n\n\nefetch\nFetch records from NCBI databases\n\n\ncurl\nDownload files from URLs",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Conclusion</span>"
+    ]
+  },
+  {
+    "objectID": "conclusion.html#where-to-go-next",
+    "href": "conclusion.html#where-to-go-next",
+    "title": "6  Conclusion",
+    "section": "6.3 Where to go next",
+    "text": "6.3 Where to go next\nThe shell is deep. Here are some natural next steps depending on your goals:\nIf you want to go further with genomics:\n\nData Carpentry: Shell Genomics — redirection, loops, scripts\nSoftware Carpentry: The Unix Shell — comprehensive foundations\n\nIf you want to write scripts:\n\nStart with simple bash scripts: a file ending in .sh containing the commands you would type interactively\nLearn about for loops, variables, and conditionals\n\nIf you need to work on a remote server (HPC):\n\nssh username@server.address — connect to a remote machine\nscp or rsync — copy files to/from a remote machine\nSLURM or PBS — job schedulers common on university HPC clusters",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Conclusion</span>"
+    ]
+  },
+  {
+    "objectID": "conclusion.html#acknowledgements",
+    "href": "conclusion.html#acknowledgements",
+    "title": "6  Conclusion",
+    "section": "6.4 Acknowledgements",
+    "text": "6.4 Acknowledgements\nThis workshop is adapted from:\n\nData Carpentry: Introduction to the shell for genomics data (Becker et al. 2019)\nClara Jégousse’s previous workshops: intro-shell-cmd-line and tsl-shell-genomics",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Conclusion</span>"
+    ]
+  },
+  {
+    "objectID": "01-intro.html#the-prompt-am-i-ready",
+    "href": "01-intro.html#the-prompt-am-i-ready",
+    "title": "1  Introducing the shell",
+    "section": "1.3 The prompt (Am I ready?)",
+    "text": "1.3 The prompt (Am I ready?)\nThe prompt tells you the shell is waiting for input. It typically looks something like this:\nusername@computer:~$\nThe exact appearance varies, but what matters is the $ (or % on zsh) at the end — this signals that the shell is ready. Do not type the $ when following examples in this workshop. It is shown only to indicate a command you should type.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introducing the shell</span>"
+    ]
+  },
+  {
+    "objectID": "02-navigation.html#print-working-directory-where-am-i",
+    "href": "02-navigation.html#print-working-directory-where-am-i",
+    "title": "2  Navigating the file system",
+    "section": "2.2 Print working directory (Where am I?)",
+    "text": "2.2 Print working directory (Where am I?)\nAt any moment, you are working inside one directory — your current working directory. The command pwd (print working directory) tells you exactly where that is:\npwd\nYour output will look something like:\n/home/username\nor on a Mac:\n/Users/username",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Navigating the file system</span>"
+    ]
+  },
+  {
+    "objectID": "02-navigation.html#listing-what-is-there",
+    "href": "02-navigation.html#listing-what-is-there",
+    "title": "2  Navigating the file system",
+    "section": "2.3 Listing (What is there?)",
+    "text": "2.3 Listing (What is there?)\nThe command ls (list) shows the contents of your current directory:\nls\nOn its own, ls gives you a simple list of names. Flags make it more informative:\n\n\n\nCommand\nWhat it shows\n\n\n\n\nls -F\nAdds / after directories, * after executables\n\n\nls -l\nLong format — permissions, size, date\n\n\nls -a\nAll files, including hidden ones (starting with .)\n\n\nls -lh\nLong format with human-readable file sizes\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nFlags can be combined: ls -lF and ls -lah are both valid. The order of flags generally does not matter.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Navigating the file system</span>"
+    ]
+  },
+  {
+    "objectID": "02-navigation.html#making-a-directory-creating-a-place-to-work",
+    "href": "02-navigation.html#making-a-directory-creating-a-place-to-work",
+    "title": "2  Navigating the file system",
+    "section": "2.4 Making a directory (Creating a place to work)",
+    "text": "2.4 Making a directory (Creating a place to work)\nThe command mkdir (make directory) creates a new directory:\nmkdir training\nCheck it was created:\nls\n\n\n\n\n\n\nNote\n\n\n\nDirectory names should not contain spaces. Use underscores (_) or hyphens (-) instead — for example, my_data or shell-intro. Spaces in filenames cause all sorts of problems on the command line.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Navigating the file system</span>"
+    ]
+  },
+  {
+    "objectID": "02-navigation.html#changing-directory-going-somewhere",
+    "href": "02-navigation.html#changing-directory-going-somewhere",
+    "title": "2  Navigating the file system",
+    "section": "2.5 Changing directory (Going somewhere)",
+    "text": "2.5 Changing directory (Going somewhere)\nThe command cd (change directory) moves you into a different directory. Let’s go into the one we just created:\ncd training\nConfirm you have moved:\npwd\n\nGoing up (Back to the parent)\nTwo dots (..) always refer to the directory above your current location — the parent directory:\ncd ..\n\n\nGoing home\nA tilde (~) always refers to your home directory. From anywhere on the system:\ncd ~\nor simply:\ncd\nBoth take you straight home.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Navigating the file system</span>"
+    ]
+  },
+  {
+    "objectID": "02-navigation.html#tab-completion-let-the-shell-do-the-typing",
+    "href": "02-navigation.html#tab-completion-let-the-shell-do-the-typing",
+    "title": "2  Navigating the file system",
+    "section": "2.7 Tab completion (Let the shell do the typing)",
+    "text": "2.7 Tab completion (Let the shell do the typing)\nTyping long directory or file names is error-prone. Type the first few characters and press Tab — the shell will autocomplete:\ncd trai&lt;Tab&gt;\nbecomes:\ncd training\nIf there are multiple matches, press Tab twice to see all options.\n\n\n\n\n\n\nTip\n\n\n\nTab completion is one of the most valuable habits you can build at the command line. Use it constantly — it saves time and prevents typos.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Navigating the file system</span>"
+    ]
+  },
+  {
+    "objectID": "02-navigation.html#reading-the-manual-how-does-this-work",
+    "href": "02-navigation.html#reading-the-manual-how-does-this-work",
+    "title": "2  Navigating the file system",
+    "section": "2.8 Reading the manual (How does this work?)",
+    "text": "2.8 Reading the manual (How does this work?)\nEvery command comes with a built-in manual. The command man (manual) opens it:\nman ls\nUse the arrow keys or Space to scroll. Press q to quit.\n\n\n\n\n\n\nTip\n\n\n\nNo one memorises all the options for every command. The manual is always there. For a quicker summary, many commands also accept --help:\nls --help\n\n\n\n\n\n\n\n\n\nCaution✏️ Exercise 2.1\n\n\n\n\nNavigate into your training directory\nUse print working directory to confirm where you are\nGo back to your home directory using ..\nGo back to training using the ~ notation\n\n\n\n\n\n\n\nNoteSolution\n\n\n\n\n\ncd training\npwd\ncd ..\ncd ~/training\n\n\n\n\n\n\n\n\n\n\n\nCaution✏️ Exercise 2.2\n\n\n\nInside training, create two new directories called data and results in a single command:\nmkdir data results\nList the contents with ls -F. What does the trailing / tell you?\n\n\n\n\n\n\nNoteSolution\n\n\n\n\n\nls -F\nThe trailing / indicates that data and results are directories, not files. Files have no trailing character; executable files get a *.\n\n\n\n\n\n\n\n\n\n\n\nImportant🚀 Bonus — for those who want more\n\n\n\nThe command tree prints a visual representation of a directory structure:\ntree ~/training\nIf tree is not installed: sudo apt install tree (Ubuntu), brew install tree (Mac with Homebrew), or it may already be available in MobaXterm.\nAlso try: what happens when you run cd with no argument at all? Where do you end up?\n\n\n\n\n\n\n\n\n\nTip🔑 Key points\n\n\n\n\nThe Unix file system is a hierarchy rooted at /\npwd tells you where you are; ls shows what is there; cd moves you around; mkdir creates directories\n.. refers to the parent directory; ~ refers to your home directory\nTab completion reduces errors and saves time — use it constantly\nman opens the manual for any command",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Navigating the file system</span>"
+    ]
+  },
+  {
+    "objectID": "03-files.html#touching-creating-an-empty-file",
+    "href": "03-files.html#touching-creating-an-empty-file",
+    "title": "3  Working with files",
+    "section": "",
+    "text": "cd ~/training\ntouch notes.txt\nls\n\n\n\n\n\n\nNote\n\n\n\nEmpty files might seem useless, but touch is handy for quickly creating placeholder files, or for testing commands before applying them to real data.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Working with files</span>"
+    ]
+  },
+  {
+    "objectID": "03-files.html#copying-making-a-duplicate",
+    "href": "03-files.html#copying-making-a-duplicate",
+    "title": "3  Working with files",
+    "section": "3.2 Copying (Making a duplicate)",
+    "text": "3.2 Copying (Making a duplicate)\nThe command cp (copy) duplicates a file. The syntax is:\ncp source destination\nFor example:\ncp notes.txt notes_backup.txt\nls\nTo copy a whole directory and everything inside it, add the -r flag (recursive):\ncp -r data data_backup",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Working with files</span>"
+    ]
+  },
+  {
+    "objectID": "03-files.html#moving-relocating-or-renaming",
+    "href": "03-files.html#moving-relocating-or-renaming",
+    "title": "3  Working with files",
+    "section": "3.3 Moving (Relocating or renaming)",
+    "text": "3.3 Moving (Relocating or renaming)\nThe command mv (move) moves a file to a new location — but it also serves as the way to rename files in Unix, since there is no separate rename command:\n# rename a file\nmv notes.txt readme.txt\n\n# move it into a subdirectory\nmv readme.txt data/readme.txt\n\n\n\n\n\n\nWarning\n\n\n\nmv will silently overwrite the destination if a file with that name already exists there. Always double-check before moving.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Working with files</span>"
+    ]
+  },
+  {
+    "objectID": "03-files.html#removing-deleting-permanently",
+    "href": "03-files.html#removing-deleting-permanently",
+    "title": "3  Working with files",
+    "section": "3.4 Removing (Deleting permanently)",
+    "text": "3.4 Removing (Deleting permanently)\nThe command rm (remove) deletes files. Unlike moving something to the Trash, there is no undo:\nrm notes_backup.txt\nTo remove a directory and all its contents:\nrm -r data_backup\n\n\n\n\n\n\nWarning\n\n\n\nBe very careful with rm -r. A common safety habit is to use rm -ri instead, which asks for confirmation before deleting each item:\nrm -ri data_backup",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Working with files</span>"
+    ]
+  },
+  {
+    "objectID": "03-files.html#concatenating-printing-a-whole-file",
+    "href": "03-files.html#concatenating-printing-a-whole-file",
+    "title": "3  Working with files",
+    "section": "3.5 Concatenating (Printing a whole file)",
+    "text": "3.5 Concatenating (Printing a whole file)\nThe command cat (catenate) prints the entire contents of a file to the terminal:\ncat data/readme.txt\ncat is fast and simple, but prints everything at once — not ideal for large files.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Working with files</span>"
+    ]
+  },
+  {
+    "objectID": "03-files.html#head-and-tail-peeking-at-the-beginning-or-end",
+    "href": "03-files.html#head-and-tail-peeking-at-the-beginning-or-end",
+    "title": "3  Working with files",
+    "section": "3.6 Head and tail (Peeking at the beginning or end)",
+    "text": "3.6 Head and tail (Peeking at the beginning or end)\nhead shows the first 10 lines of a file by default:\nhead data/readme.txt\nUse -n to choose a different number of lines:\nhead -n 5 data/readme.txt\ntail shows the last 10 lines:\ntail data/readme.txt\nThese are especially useful for large biological data files — you can check the format without loading the whole thing.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Working with files</span>"
+    ]
+  },
+  {
+    "objectID": "03-files.html#less-scrolling-through-a-large-file",
+    "href": "03-files.html#less-scrolling-through-a-large-file",
+    "title": "3  Working with files",
+    "section": "3.7 Less (Scrolling through a large file)",
+    "text": "3.7 Less (Scrolling through a large file)\nFor files too large to comfortably cat, less opens them in an interactive scrollable viewer:\nless data/readme.txt\n\n\n\nKey\nAction\n\n\n\n\nSpace\nPage down\n\n\nb\nPage up\n\n\n↓ / ↑\nOne line at a time\n\n\n/pattern\nSearch for pattern\n\n\nn\nNext search result\n\n\nq\nQuit\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nYou will use less constantly when working with FASTQ, FASTA, and other large genomics files. It never loads the whole file into memory, so it works even on files that are gigabytes in size.\n\n\n\n\n\n\n\n\n\nCaution✏️ Exercise 3.1\n\n\n\n\nNavigate to ~/training\nCreate a file called experiment.txt inside the data/ directory\nMake a copy of it called experiment_v2.txt in the same directory\nRename experiment.txt to experiment_v1.txt\nList the contents of data/ to confirm\n\n\n\n\n\n\n\nNoteSolution\n\n\n\n\n\ncd ~/training\ntouch data/experiment.txt\ncp data/experiment.txt data/experiment_v2.txt\nmv data/experiment.txt data/experiment_v1.txt\nls data/\n\n\n\n\n\n\n\n\n\n\n\nImportant🚀 Bonus — for those who want more\n\n\n\nThe command wc (word count) counts lines, words and characters in a file:\nwc data/readme.txt\nThe output format is: lines  words  characters  filename\nUse wc -l to count only lines. We will use this in Chapter 5 to count sequences in a FASTA file.\n\n\n\n\n\n\n\n\n\nTip🔑 Key points\n\n\n\n\ntouch creates an empty file; cp copies; mv moves or renames; rm deletes permanently — there is no undo\ncat prints a whole file; head and tail show the beginning and end; less lets you scroll through large files\nAlways double-check before using rm -r",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Working with files</span>"
+    ]
+  }
+]

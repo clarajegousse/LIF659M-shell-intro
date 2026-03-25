@@ -1,0 +1,15 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+/.quarto/
+**/*.quarto_ipynb
+
+docs/
+.quarto/
+
+__pycache__/
+*.pyc
+
+.DS_Store

@@ -1,0 +1,272 @@
+# Navigating the file system
+
+::: {.callout-note icon=false}
+## ⏳ Time
+- Teaching: 15 min
+- Exercises: 10 min
+:::
+
+::: {.callout-note icon=false}
+## 🤔 Questions
+- How is the file system organised?
+- How do I know where I am?
+- How do I move between directories?
+:::
+
+::: {.callout-note icon=false}
+## 🎯 Objectives
+- Explain the hierarchical structure of the Unix file system
+- Navigate using `pwd`, `ls`, and `cd`
+- Distinguish between absolute and relative paths
+- Use tab completion to avoid typing mistakes
+:::
+
+---
+
+## The file system
+
+Files and directories on a Unix system are arranged in a **hierarchy**, like an upside-down tree. The base of the tree is called the **root directory** and is written as `/`. Every file and directory on the system lives somewhere beneath it.
+
+```
+/
+├── home/
+│   └── username/
+│       ├── Documents/
+│       └── Downloads/
+├── usr/
+└── tmp/
+```
+
+When you open a terminal, you start in your **home directory** typically `/home/username` on Linux or `/Users/username` on a Mac. This is your personal space on the system.
+
+---
+
+## Print working directory (Where am I?)
+
+At any moment, you are working inside one directory your **current working directory**. The command `pwd` (**p**rint **w**orking **d**irectory) tells you exactly where that is:
+
+```bash
+pwd
+```
+
+Your output will look something like:
+
+```
+/home/username
+```
+
+or on a Mac:
+
+```
+/Users/username
+```
+
+---
+
+## Listing (What is there?)
+
+The command `ls` (**l**i**s**t) shows the contents of your current directory:
+
+```bash
+ls
+```
+
+On its own, `ls` gives you a simple list of names. Flags make it more informative:
+
+| Command | What it shows |
+|---------|--------------|
+| `ls -F` | Adds `/` after directories, `*` after executables |
+| `ls -l` | Long format: permissions, size, date |
+| `ls -a` | All files, including hidden ones (starting with `.`) |
+| `ls -lh` | Long format with human-readable file sizes |
+
+::: {.callout-tip}
+Flags can be combined: `ls -lF` and `ls -lah` are both valid. The order of flags generally does not matter.
+:::
+
+---
+
+## Making a directory (Creating a place to work)
+
+The command `mkdir` (**m**a**k**e **dir**ectory) creates a new directory:
+
+```bash
+mkdir training
+```
+
+Check it was created:
+
+```bash
+ls
+```
+
+::: {.callout-note}
+Directory names should not contain spaces. Use underscores (`_`) or hyphens (`-`) instead for example, `my_data` or `shell-intro`. Spaces in filenames cause all sorts of problems on the command line.
+:::
+
+---
+
+## Changing directory (Going somewhere)
+
+The command `cd` (**c**hange **d**irectory) moves you into a different directory. Let's go into the one we just created:
+
+```bash
+cd training
+```
+
+Confirm you have moved:
+
+```bash
+pwd
+```
+
+### Going up (Back to the parent) {.unnumbered}
+
+Two dots (`..`) always refer to the directory **above** your current location (the *parent* directory):
+
+```bash
+cd ..
+```
+
+### Going home {.unnumbered}
+
+A tilde (`~`) always refers to your home directory. From anywhere on the system:
+
+```bash
+cd ~
+```
+
+or simply:
+
+```bash
+cd
+```
+
+Both take you straight home.
+
+---
+
+## Absolute vs. relative paths
+
+A **path** is the address of a file or directory in the file system.
+
+- An **absolute path** starts from the root (`/`) and works from anywhere on the system:
+  ```bash
+  cd /home/username/training
+  ```
+
+- A **relative path** is given relative to where you currently are:
+  ```bash
+  cd training
+  ```
+
+::: {.callout-tip}
+Use absolute paths in scripts they always work regardless of where the script is called from. Use relative paths for quick interactive navigation.
+:::
+
+---
+
+## Tab completion (Let the shell do the typing)
+
+Typing long directory or file names is error-prone. Type the first few characters and press **Tab** the shell will autocomplete:
+
+```bash
+cd trai<Tab>
+```
+
+becomes:
+
+```bash
+cd training
+```
+
+If there are multiple matches, press **Tab twice** to see all options.
+
+::: {.callout-tip}
+Tab completion is one of the most valuable habits you can build at the command line. Use it constantly it saves time and prevents typos.
+:::
+
+---
+
+## Reading the manual (How does this work?)
+
+Every command comes with a built-in manual. The command `man` (**man**ual) opens it:
+
+```bash
+man ls
+```
+
+Use the arrow keys or `Space` to scroll. Press `q` to quit.
+
+::: {.callout-tip}
+No one memorises all the options for every command. The manual is always there. For a quicker summary, many commands also accept `--help`:
+```bash
+ls --help
+```
+:::
+
+---
+
+::: {.callout-caution icon=false}
+## ✏️ Exercise 2.1
+
+1. Navigate into your `training` directory
+2. Use print working directory to confirm where you are
+3. Go back to your home directory using `..`
+4. Go back to `training` using the `~` notation
+
+::: {.callout-note collapse=true icon=false}
+## Solution
+```bash
+cd training
+pwd
+cd ..
+cd ~/training
+```
+:::
+:::
+
+::: {.callout-caution icon=false}
+## ✏️ Exercise 2.2
+
+Inside `training`, create two new directories called `data` and `results` in a single command:
+
+```bash
+mkdir data results
+```
+
+List the contents with `ls -F`. What does the trailing `/` tell you?
+
+::: {.callout-note collapse=true icon=false}
+## Solution
+```bash
+ls -F
+```
+The trailing `/` indicates that `data` and `results` are directories, not files. Files have no trailing character; executable files get a `*`.
+:::
+:::
+
+::: {.callout-important icon=false}
+## 🚀 Bonus: for those who want more
+
+The command `tree` prints a visual representation of a directory structure:
+
+```bash
+tree ~/training
+```
+
+If `tree` is not installed: `sudo apt install tree` (Ubuntu), `brew install tree` (Mac with Homebrew), or it may already be available in MobaXterm.
+
+Also try: what happens when you run `cd` with no argument at all? Where do you end up?
+:::
+
+---
+
+::: {.callout-tip icon=false}
+## 🔑 Key points
+- The Unix file system is a hierarchy rooted at `/`
+- `pwd` tells you where you are; `ls` shows what is there; `cd` moves you around; `mkdir` creates directories
+- `..` refers to the parent directory; `~` refers to your home directory
+- Tab completion reduces errors and saves time use it constantly
+- `man` opens the manual for any command
+:::

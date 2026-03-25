@@ -1,0 +1,76 @@
+# Conclusion
+
+## What we covered
+
+In this session you have gone from opening a terminal for the first time to downloading and querying a real bacterial genome. Specifically, you can now:
+
+- Navigate a Unix file system using `pwd`, `ls`, `cd`, and `mkdir`
+- Create, copy, move and delete files and directories
+- Install command-line tools using package managers or installer scripts
+- Download sequences from NCBI using `efetch` or `curl`
+- Inspect biological files with `head`, `tail`, and `less`
+- Search for patterns with `grep`, count with `wc`, and chain commands with `|`
+
+These are the building blocks of almost everything done in command-line bioinformatics.
+
+---
+
+## Project organisation
+
+Now that you can create directories and files from the command line, a natural next step is to think carefully about how to organise your work. A well-structured project is easier to reproduce, easier to share, and much easier to return to after six months away.
+
+Noble (2009) [@noble2009] describes a practical, widely adopted directory structure for computational biology projects, with separate directories for raw data, results, scripts, and documentation. It is a short, readable paper and strongly recommended.
+
+---
+
+## Command reference
+
+| Command | What it does |
+|---------|-------------|
+| `pwd` | Print working directory |
+| `ls` | List directory contents |
+| `cd` | Change directory |
+| `mkdir` | Make a new directory |
+| `touch` | Create an empty file |
+| `cp` | Copy a file or directory |
+| `mv` | Move or rename a file |
+| `rm` | Delete a file (`-r` for directories) |
+| `cat` | Print file contents |
+| `head` | Show first lines of a file |
+| `tail` | Show last lines of a file |
+| `less` | Scroll through a file |
+| `wc` | Count lines, words, characters |
+| `grep` | Search for patterns in files |
+| `echo` | Print text to the terminal |
+| `which` | Find where a programme is installed |
+| `man` | Open the manual for a command |
+| `esearch` | Search NCBI databases |
+| `efetch` | Fetch records from NCBI databases |
+| `curl` | Download files from URLs |
+
+---
+
+## Where to go next
+
+The shell is deep. Here are some natural next steps depending on your goals.
+
+**If you want to go further with genomics:**
+
+- [Data Carpentry: Shell Genomics](https://datacarpentry.org/shell-genomics/) covers redirection, loops, and bash scripts using real FASTQ data
+- [Software Carpentry: The Unix Shell](https://swcarpentry.github.io/shell-novice/) provides comprehensive foundations
+
+**If you want to write scripts:**
+
+Start with a simple bash script: a file ending in `.sh` containing the commands you would type interactively. Add a `for` loop when you need to repeat a task across multiple files.
+
+**If you need to work on a remote server (HPC):**
+
+- `ssh username@server.address` connects to a remote machine
+- `scp` or `rsync` copy files to and from a remote machine
+- SLURM or PBS are the job schedulers most commonly used on university HPC clusters
+
+---
+
+## Acknowledgements
+
+This workshop is adapted from the Data Carpentry shell genomics lesson [@becker2019] and Clara Jégousse's previous workshops.

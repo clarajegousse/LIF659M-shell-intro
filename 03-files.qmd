@@ -1,0 +1,206 @@
+# Working with files
+
+::: {.callout-note icon=false}
+## ⏳ Time
+- Teaching: 15 min
+- Exercises: 5 min
+:::
+
+::: {.callout-note icon=false}
+## 🤔 Questions
+- How do I create, copy, move and delete files?
+- How do I look at the contents of a file without opening it in a text editor?
+:::
+
+::: {.callout-note icon=false}
+## 🎯 Objectives
+- Create empty files with `touch`
+- Copy and move files with `cp` and `mv`
+- Delete files safely with `rm`
+- Inspect file contents with `cat`, `head`, `tail`, and `less`
+:::
+
+---
+
+## Touching (Creating an empty file)
+
+The command `touch` creates an empty file and also updates the timestamp of an existing file without changing its contents:
+
+```bash
+cd ~/training
+touch notes.txt
+ls
+```
+
+::: {.callout-note}
+Empty files might seem useless, but `touch` is handy for quickly creating placeholder files, or for testing commands before applying them to real data.
+:::
+
+---
+
+## Copying (Making a duplicate)
+
+The command `cp` (**c**o**p**y) duplicates a file. The syntax is:
+
+```bash
+cp source destination
+```
+
+For example:
+
+```bash
+cp notes.txt notes_backup.txt
+ls
+```
+
+To copy a whole directory and everything inside it, add the `-r` flag (**r**ecursive):
+
+```bash
+cp -r data data_backup
+```
+
+---
+
+## Moving (Relocating or renaming)
+
+The command `mv` (**m**o**v**e) moves a file to a new location and also serves as the way to **rename** files in Unix, since there is no separate rename command:
+
+```bash
+# rename a file
+mv notes.txt readme.txt
+
+# move it into a subdirectory
+mv readme.txt data/readme.txt
+```
+
+::: {.callout-warning}
+`mv` will silently overwrite the destination if a file with that name already exists there. Always double-check before moving.
+:::
+
+---
+
+## Removing (Deleting permanently)
+
+The command `rm` (**r**e**m**ove) deletes files. Unlike moving something to the Trash, **there is no undo**:
+
+```bash
+rm notes_backup.txt
+```
+
+To remove a directory and all its contents:
+
+```bash
+rm -r data_backup
+```
+
+::: {.callout-warning}
+Be very careful with `rm -r`. A common safety habit is to use `rm -ri` instead, which asks for confirmation before deleting each item:
+```bash
+rm -ri data_backup
+```
+:::
+
+---
+
+## Concatenating (Printing a whole file)
+
+The command `cat` (**cat**enate) prints the entire contents of a file to the terminal:
+
+```bash
+cat data/readme.txt
+```
+
+`cat` is fast and simple, but prints everything at once not ideal for large files.
+
+---
+
+## Head and tail (Peeking at the beginning or end)
+
+`head` shows the **first** 10 lines of a file by default:
+
+```bash
+head data/readme.txt
+```
+
+Use `-n` to choose a different number of lines:
+
+```bash
+head -n 5 data/readme.txt
+```
+
+`tail` shows the **last** 10 lines:
+
+```bash
+tail data/readme.txt
+```
+
+These are especially useful for large biological data files you can check the format without loading the whole thing.
+
+---
+
+## Less (Scrolling through a large file)
+
+For files too large to comfortably `cat`, `less` opens them in an interactive scrollable viewer:
+
+```bash
+less data/readme.txt
+```
+
+| Key | Action |
+|-----|--------|
+| `Space` | Page down |
+| `b` | Page up |
+| `↓` / `↑` | One line at a time |
+| `/pattern` | Search for *pattern* |
+| `n` | Next search result |
+| `q` | Quit |
+
+::: {.callout-tip}
+You will use `less` constantly when working with FASTQ, FASTA, and other large genomics files. It never loads the whole file into memory, so it works even on files that are gigabytes in size.
+:::
+
+---
+
+::: {.callout-caution icon=false}
+## ✏️ Exercise 3.1
+
+1. Navigate to `~/training`
+2. Create a file called `experiment.txt` inside the `data/` directory
+3. Make a copy of it called `experiment_v2.txt` in the same directory
+4. Rename `experiment.txt` to `experiment_v1.txt`
+5. List the contents of `data/` to confirm
+
+::: {.callout-note collapse=true icon=false}
+## Solution
+```bash
+cd ~/training
+touch data/experiment.txt
+cp data/experiment.txt data/experiment_v2.txt
+mv data/experiment.txt data/experiment_v1.txt
+ls data/
+```
+:::
+:::
+
+::: {.callout-important icon=false}
+## 🚀 Bonus: for those who want more
+
+The command `wc` (**w**ord **c**ount) counts lines, words and characters in a file:
+
+```bash
+wc data/readme.txt
+```
+
+The output format is: `lines  words  characters  filename`
+
+Use `wc -l` to count only lines. We will use this in [Chapter 5](05-explore.qmd) to count sequences in a FASTA file.
+:::
+
+---
+
+::: {.callout-tip icon=false}
+## 🔑 Key points
+- `touch` creates an empty file; `cp` copies; `mv` moves or renames; `rm` deletes permanently there is no undo
+- `cat` prints a whole file; `head` and `tail` show the beginning and end; `less` lets you scroll through large files
+- Always double-check before using `rm -r`
+:::

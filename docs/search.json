@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Introduction to the Shell for Bioinformatics",
     "section": "",
-    "text": "Preface\nThis workshop is part of LÍF659M at the University of Iceland. It introduces the Unix shell, the command-line interface that underpins most bioinformatics work.\nThe material is adapted from the Data Carpentry: Shell Genomics lesson and Clara Jégousse’s previous shell workshops.",
+    "text": "Preface\nThis workshop is part of Genetics and bioinformatics course at the University of Iceland (LÍF659M). It introduces the Unix shell, the command-line interface that underpins most bioinformatics work.\nThe material is adapted from the Data Carpentry: Shell Genomics lesson.",
     "crumbs": [
       "Preface"
     ]
@@ -34,7 +34,7 @@
     "href": "index.html#setup",
     "title": "Introduction to the Shell for Bioinformatics",
     "section": "Setup",
-    "text": "Setup\nPlease complete the setup steps before the session — this means only opening your terminal. Everything else will be installed during class.\n\nMacOS\nThe Terminal application is already on your Mac. Open Finder → Applications → Utilities → Terminal, or search for Terminal in Spotlight (⌘ Space).\n\n\nLinux (Ubuntu)\nOpen the Terminal from your applications menu, or press Ctrl + Alt + T.\n\n\nWindows\nDownload and install MobaXterm Home Edition (free). Once installed:\n\nOpen MobaXterm\nClick Start local terminal\n\nMobaXterm provides a bash shell on Windows and will be used throughout this workshop.",
+    "text": "Setup\nPlease complete the setup steps before the session: this means only opening your terminal. Everything else will be installed during class.\n\nMacOS\nThe Terminal application is already on your Mac. Open Finder &gt; Applications &gt; Utilities &gt; Terminal, or search for Terminal in Spotlight (⌘ Space).\n\n\nLinux (Ubuntu)\nOpen the Terminal from your applications menu, or press Ctrl + Alt + T.\n\n\nWindows\nDownload and install MobaXterm Home Edition (free). Once installed:\n\nOpen MobaXterm\nClick Start local terminal\n\nMobaXterm provides a bash shell on Windows and will be used throughout this workshop.",
     "crumbs": [
       "Preface"
     ]
@@ -514,7 +514,7 @@
     "href": "index.html#how-this-workshop-works",
     "title": "Introduction to the Shell for Bioinformatics",
     "section": "How this workshop works",
-    "text": "How this workshop works\nThis workshop is designed for a mixed audience. Some of you have never opened a terminal before; others are already comfortable at the command line. Both are welcome, and the material is structured to accommodate everyone.\nThe guided session covers Chapters 1 to 4. We will work through these together, at a pace that ensures everyone can follow along. Each chapter contains 🚀 Bonus callouts with extra challenges — if you finish a section early, these will keep you busy while others catch up.\nChapters 5 and 6 cover fetching and exploring real genomic data. If you are comfortable with the command line, you are encouraged to work through these on your own during the session. For everyone else, they are self-directed follow-up material. The instructor will be available online in the weeks following the session for any questions.\n\n\n\n\n\n\nTip\n\n\n\nGetting stuck is normal and expected. If something does not work, raise your hand — there is a good chance your neighbour has the same problem, and troubleshooting together is part of learning.",
+    "text": "How this workshop works\nThis workshop is designed for a mixed audience. Some of you have never opened a terminal before; others are already comfortable at the command line. Both are welcome, and the material is structured to accommodate everyone.\nThe guided session covers Chapters 1 to 4. We will work through these together, at a pace that ensures everyone can follow along. Each chapter contains 🚀 Bonus callouts with extra challenges: if you finish a section early, these will keep you busy while others catch up.\nChapters 5 and 6 cover fetching and exploring real genomic data. If you are comfortable with the command line, you are encouraged to work through these on your own during the session. For everyone else, they are self-directed follow-up material. The instructor will be available online in the weeks following the session for any questions.\n\n\n\n\n\n\nTip\n\n\n\nGetting stuck is normal and expected. If something does not work, raise your hand because there is a good chance your neighbour has the same problem, and troubleshooting together is part of learning 🩵",
     "crumbs": [
       "Preface"
     ]

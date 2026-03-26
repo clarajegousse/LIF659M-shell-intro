@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Clara Jégousse">
-<meta name="dcterms.date" content="2026-03-25">
+<meta name="dcterms.date" content="2026-03-26">
 
 <title>Introduction to the Shell for Bioinformatics</title>
 <style>
@@ -212,7 +212,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">March 25, 2026</p>
+      <p class="date">March 26, 2026</p>
     </div>
   </div>
   
@@ -226,13 +226,13 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="preface" class="level1 unnumbered">
 <h1 class="unnumbered">Preface</h1>
-<p>This workshop is part of <strong>LÍF659M</strong> at the University of Iceland. It introduces the Unix shell, the command-line interface that underpins most bioinformatics work.</p>
-<p>The material is adapted from the <a href="https://datacarpentry.org/shell-genomics/">Data Carpentry: Shell Genomics</a> lesson and Clara Jégousse’s previous shell workshops.</p>
+<p>This workshop is part of Genetics and bioinformatics course at the University of Iceland (<strong>LÍF659M</strong>). It introduces the Unix shell, the command-line interface that underpins most bioinformatics work.</p>
+<p>The material is adapted from the <a href="https://datacarpentry.org/shell-genomics/">Data Carpentry: Shell Genomics</a> lesson.</p>
 <hr>
 <section id="how-this-workshop-works" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="how-this-workshop-works">How this workshop works</h2>
 <p>This workshop is designed for a mixed audience. Some of you have never opened a terminal before; others are already comfortable at the command line. Both are welcome, and the material is structured to accommodate everyone.</p>
-<p>The guided session covers <strong>Chapters 1 to 4</strong>. We will work through these together, at a pace that ensures everyone can follow along. Each chapter contains <strong>🚀 Bonus</strong> callouts with extra challenges — if you finish a section early, these will keep you busy while others catch up.</p>
+<p>The guided session covers <strong>Chapters 1 to 4</strong>. We will work through these together, at a pace that ensures everyone can follow along. Each chapter contains <strong>🚀 Bonus</strong> callouts with extra challenges: if you finish a section early, these will keep you busy while others catch up.</p>
 <p><strong>Chapters 5 and 6</strong> cover fetching and exploring real genomic data. If you are comfortable with the command line, you are encouraged to work through these on your own during the session. For everyone else, they are self-directed follow-up material. The instructor will be available online in the weeks following the session for any questions.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -244,7 +244,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Getting stuck is normal and expected. If something does not work, raise your hand — there is a good chance your neighbour has the same problem, and troubleshooting together is part of learning.</p>
+<p>Getting stuck is normal and expected. If something does not work, raise your hand because there is a good chance your neighbour has the same problem, and troubleshooting together is part of learning 🩵</p>
 </div>
 </div>
 <hr>
@@ -259,7 +259,7 @@ Tip
 </ul>
 <p>If you work through Chapters 5 and 6, you will additionally be able to:</p>
 <ul>
-<li>Query NCBI databases and download a genome sequence from the command line</li>
+<li>Query <a href="https://www.ncbi.nlm.nih.gov/">NCBI</a> databases and download a genome sequence from the command line</li>
 <li>Perform basic exploration of a FASTA file using <code>grep</code>, <code>wc</code> and pipes</li>
 </ul>
 <hr>
@@ -327,10 +327,10 @@ Tip
 </section>
 <section id="setup" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="setup">Setup</h2>
-<p>Please complete the setup steps <strong>before</strong> the session — this means only opening your terminal. Everything else will be installed during class.</p>
+<p>Please complete the setup steps <strong>before</strong> the session: this means only opening your terminal. Everything else will be installed during class.</p>
 <section id="macos" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="macos">MacOS</h3>
-<p>The Terminal application is already on your Mac. Open <strong>Finder → Applications → Utilities → Terminal</strong>, or search for <em>Terminal</em> in Spotlight (<code>⌘ Space</code>).</p>
+<p>The Terminal application is already on your Mac. Open <strong>Finder &gt; Applications &gt; Utilities &gt; Terminal</strong>, or search for <em>Terminal</em> in Spotlight (<code>⌘ Space</code>).</p>
 </section>
 <section id="linux-ubuntu" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="linux-ubuntu">Linux (Ubuntu)</h3>
